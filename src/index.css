@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+:root {
+  --surface: #131313;
+  --surface-bright: #393939;
+  --on-surface: #e4e2e1;
+  --primary: #c9c6c5;
+  --on-primary: #313030;
+  --tertiary: #b8c3ff;
+  --electric-cobalt: #2E5BFF;
+  --muted-slate: #262626;
+  --stark-white: #F5F5F5;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: 'Hanken Grotesk', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'EB Garamond', serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.sharp-edge {
+  border-radius: 0px !important;
+}
+
+.border-noir {
+  border: 1px solid var(--muted-slate);
+}
