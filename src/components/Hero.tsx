@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowUpRight, Terminal } from 'lucide-react';
 
 export const Hero: React.FC = () => {

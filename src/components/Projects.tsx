@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Cpu, Layers } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface Project {
   id: string;

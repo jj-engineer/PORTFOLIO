@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+
 import { Terminal, Send, Cpu, Bot, User } from 'lucide-react';
 
 interface Message {
