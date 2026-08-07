@@ -1,24 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView, type Variants } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform, type Variants } from 'framer-motion';
 import { 
   Terminal, Send, CheckCircle2, AlertCircle, Bot, User, Cpu, GitCommit, Power, 
-  ExternalLink, Menu, X, ChevronRight, ChevronDown, Mail, 
-  Globe, Code2, Database, CpuIcon, Search, Compass, TerminalSquare
+  ExternalLink, Menu, X, ChevronRight, Mail, 
+  Globe, Layers3, FileUser, GraduationCap, ArrowRight, Activity, Check, ShieldCheck
 } from 'lucide-react';
+import {
+  SiReact,
+  SiTypescript,
+  SiPython,
+  SiFastapi,
+  SiTailwindcss,
+  SiSupabase,
+  SiDocker,
+  SiVercel,
+  SiRailway,
+  SiGit,
+  SiGithub,
+  SiKalilinux
+} from 'react-icons/si';
 import * as THREE from 'three';
 
 interface Project {
   id: string;
   number: string;
   title: string;
+  displayTitle: string;
   category: string;
   description: string;
-  image: string;
-  status: string;
-  price?: string;
-  stats?: string;
+  longDescription: string;
+  problem: string;
+  built: string[];
+  techStack: string[];
+  role: string;
+  image?: string;
+  status: 'ACTIVE_DEPLOY' | 'UNDER_MAINTENANCE';
   url?: string;
-  isMaintenance?: boolean;
+  icon?: React.ReactNode;
 }
 
 const projects: Project[] = [
@@ -26,63 +44,103 @@ const projects: Project[] = [
     id: '01',
     number: 'PROJECT_01',
     title: 'Smart-System-BACII-Education-Platform',
-    category: 'AI ENGINEERING // FULL-STACK',
-    description: 'Enterprise-grade LLM workflow automation pipeline with dynamic task decomposition and fault-tolerant agent handoffs.',
+    displayTitle: 'Smart BAC II Education Platform',
+    category: 'EDUCATION / AI / FULL-STACK',
+    description: 'An AI-powered learning platform designed to help Cambodian Grade 12 students study, practice, and prepare for the BAC II examination.',
+    longDescription: 'Smart BAC II Education Platform is a comprehensive digital learning solution designed specifically for Cambodian high school students preparing for their national grade 12 examinations.',
+    problem: 'Grade 12 students face limited access to real-time tutoring, structured Cambodian curriculum study materials, and automated practice exam feedback.',
+    built: [
+      'Interactive subject practice modules tailored to Grade 12 curriculum',
+      'AI assistant providing step-by-step problem explanations',
+      'Student performance tracking and weak-area diagnostic dashboard',
+      'Responsive, low-latency interface engineered for mobile and web'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Python', 'FastAPI', 'Supabase'],
+    role: 'AI Engineering + Full-Stack Architect',
     image: '/learning.jpg', 
     status: 'ACTIVE_DEPLOY',
-    url: 'https://bakdub.vercel.app/',
-    isMaintenance: false,
-    price: '3.45 ETH',
-    stats: '50k'
+    url: 'https://bakdub.vercel.app/'
   },
   {
     id: '02',
     number: 'PROJECT_02',
     title: 'AI-Math-Learning-System',
-    category: 'MATH // SYSTEM',
-    description: 'Sub-50ms vector retrieval pipeline utilizing hybrid dense-sparse indexing and contextual re-ranking layers.',
+    displayTitle: 'AI Math Learning System',
+    category: 'EDUCATION / AI / MATH',
+    description: 'An interactive mathematics learning platform that helps students practice problems, understand concepts, and improve performance through AI-assisted feedback.',
+    longDescription: 'An intelligent mathematics workspace that transforms static problem sets into interactive, adaptive learning experiences with immediate feedback loops.',
+    problem: 'Traditional math tools show answers without breaking down logical steps, leaving students stuck when solving complex equations independently.',
+    built: [
+      'Step-by-step mathematical reasoning pipeline',
+      'Dynamic quiz generator based on individual student accuracy',
+      'Fast vector retrieval for instant formula and concept lookup',
+      'Clean formula rendering and interactive scratchpad workspace'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'FastAPI', 'Vector Search'],
+    role: 'Full-Stack Developer + AI Integration',
     image: '/Math.jpg', 
     status: 'ACTIVE_DEPLOY',
-    url: 'https://math-quiz-khmer.vercel.app/',
-    isMaintenance: false,
-    price: '2.10 ETH',
-    stats: '42k'
+    url: 'https://math-quiz-khmer.vercel.app/'
   },
   {
     id: '03',
     number: 'PROJECT_03',
     title: 'PureAxis-UI-Framework',
-    category: 'E-Commerce // OPTIMIZATION',
-    description: 'Quantized on-device model runner optimized for local memory footprint and high token generation speed.',
-    image: '/e-c.jpg', 
+    displayTitle: 'PureAxis UI Framework',
+    category: 'UI SYSTEM / FRONTEND',
+    description: 'A reusable interface system focused on building consistent, modern, high-performance web experiences.',
+    longDescription: 'A modular design system and React component library engineered for dark-mode, high-density dashboard and engineering interfaces.',
+    problem: 'Building bespoke engineering UI components repeatedly creates code duplication, inconsistent styling, and slow product execution.',
+    built: [
+      'Accessible, highly customizable core UI primitives',
+      'Performance-optimized motion primitives utilizing Framer Motion',
+      'Strict TypeScript design token architecture',
+      'Interactive design tokens documentation'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    role: 'Frontend Architect',
     status: 'UNDER_MAINTENANCE',
-    isMaintenance: true,
-    price: '4.80 ETH',
-    stats: '89k'
+    icon: <Layers3 className="w-10 h-10 text-red-500" />
   },
   {
     id: '04',
     number: 'PROJECT_04',
     title: 'CV-Generator-System',
-    category: 'INTERFACE // LLM TOOLING',
-    description: 'Canvas-style interactive environment designed for fluid prompt chaining, context sharing, and real-time output rendering.',
-    image: '/CV.jpg', 
+    displayTitle: 'CV Generator System',
+    category: 'PRODUCTIVITY / AI / DOCUMENTS',
+    description: 'A web-based CV creation system designed to help users build professional resumes through a guided and structured workflow.',
+    longDescription: 'An automated document generator that translates user input into clean, ATS-compliant professional resumes and portfolio metadata.',
+    problem: 'Job seekers struggle with formatting, phrasing achievements effectively, and generating modern print-ready portfolio resumes.',
+    built: [
+      'Real-time live document preview engine',
+      'AI content polishing and phrase optimization assistant',
+      'Structured PDF compilation pipeline',
+      'Customizable dark/light aesthetic export templates'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Python', 'PDF Kit'],
+    role: 'Full-Stack Developer',
     status: 'UNDER_MAINTENANCE',
-    isMaintenance: true,
-    price: '1.95 ETH',
-    stats: '34k'
+    icon: <FileUser className="w-10 h-10 text-red-500" />
   },
   {
     id: '05',
     number: 'PROJECT_05',
     title: 'E-Learning-Program',
-    category: 'DEEP LEARNING // EMBEDDINGS',
-    description: 'Advanced tensor representation framework built for cross-modal retrieval and semantic clustering.',
-    image: '/e-learning.jpg', 
+    displayTitle: 'E-Learning Platform',
+    category: 'EDUCATION / LEARNING',
+    description: 'A digital learning environment designed to make online education more accessible, structured, and engaging.',
+    longDescription: 'A flexible, modern learning management environment built to deliver structured courses, video lessons, and interactive assessments.',
+    problem: 'Conventional learning platforms are often cluttered, slow on mobile connections, and lack real-time progress indicators.',
+    built: [
+      'Streamlined course navigation and lesson playback environment',
+      'Real-time student progress tracking and quiz scoring',
+      'Secure enrollment and user management backend',
+      'Mobile-first responsive interface design'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
+    role: 'Full-Stack Developer',
     status: 'UNDER_MAINTENANCE',
-    isMaintenance: true,
-    price: '5.20 ETH',
-    stats: '112k'
+    icon: <GraduationCap className="w-10 h-10 text-red-500" />
   }
 ];
 
@@ -309,7 +367,6 @@ const SystemEngineeringModelCanvas: React.FC<{ isMobile?: boolean }> = ({ isMobi
       coreMesh.rotation.y = -elapsedTime * 0.4;
       wireframeMesh.rotation.y = -elapsedTime * 0.4;
 
-      // System Heartbeat Modulation
       const heartbeatScale = 1 + Math.sin(elapsedTime * 1.5) * 0.015;
       coreMesh.scale.set(heartbeatScale, heartbeatScale, heartbeatScale);
       wireframeMesh.scale.set(heartbeatScale, heartbeatScale, heartbeatScale);
@@ -353,7 +410,6 @@ const SystemEngineeringModelCanvas: React.FC<{ isMobile?: boolean }> = ({ isMobi
 /* -------------------------------------------------------------------------- */
 
 export const PortfolioMaster: React.FC = () => {
-  // Mobile / Desktop detection
   const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false);
 
   useEffect(() => {
@@ -365,10 +421,25 @@ export const PortfolioMaster: React.FC = () => {
     return () => window.removeEventListener('resize', handleCheckMobile);
   }, []);
 
-  // Shared / Universal States
   const [isLoaded, setIsLoaded] = useState(false);
   const [hoverProgress, setHoverProgress] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+
+  // Roadmap Hover-Follow Motion Values
+  const cursorX = useMotionValue(0);
+  const smoothX = useSpring(cursorX, { stiffness: 120, damping: 20 });
+  const smoothXPercent = useTransform(smoothX, (v) => `${v}%`);
+  const [isRoadmapHovered, setIsRoadmapHovered] = useState(false);
+  const roadmapCardRef = useRef<HTMLDivElement>(null);
+
+  const handleRoadmapMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!roadmapCardRef.current) return;
+    const rect = roadmapCardRef.current.getBoundingClientRect();
+    const xRelative = e.clientX - rect.left;
+    const percent = (xRelative / rect.width) * 100;
+    const clampedPercent = Math.max(7, Math.min(93, percent));
+    cursorX.set(clampedPercent);
+  };
 
   const [formData, setFormData] = useState({ sender_name: '', sender_email: '', project_scope: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -376,7 +447,7 @@ export const PortfolioMaster: React.FC = () => {
 
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'SYS_AGENT v2.5 initialized. Ask me anything about my AI engineering stack, models, or development philosophy.' }
+    { role: 'assistant', content: 'SYS_AGENT v2.5 initialized. Ask me anything about my AI engineering stack, capabilities, or development roadmap.' }
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -386,28 +457,23 @@ export const PortfolioMaster: React.FC = () => {
     desc: string;
     projectsUsed: string;
     reason: string;
+    icon?: React.ReactNode;
   } | null>(null);
 
   const [activeProjectModal, setActiveProjectModal] = useState<Project | null>(null);
 
-  // Desktop Coverflow Carousel State
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isCarouselHovered, setIsCarouselHovered] = useState(false);
 
-  // Mobile Navigation Sheet State
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Mobile Accordion State for Capabilities
-  const [expandedCapability, setExpandedCapability] = useState<number | null>(null);
-
-  // Mobile Roadmap Toggle State
   const [showRoadmapMobile, setShowRoadmapMobile] = useState(false);
+  const [hoveredRoadmapNode, setHoveredRoadmapNode] = useState<number | null>(null);
 
   useEffect(() => {
     if (isCarouselHovered || isMobileDevice) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % projects.length);
-    }, 2500);
+    }, 3500);
     return () => clearInterval(interval);
   }, [isCarouselHovered, isMobileDevice]);
 
@@ -438,7 +504,6 @@ export const PortfolioMaster: React.FC = () => {
     return () => clearInterval(interval);
   }, [isHovering, isLoaded]);
 
-  // Bypass loading modal on mobile if tap/click is used
   const handleMobileBoot = () => {
     setIsLoaded(true);
   };
@@ -474,81 +539,226 @@ export const PortfolioMaster: React.FC = () => {
     setTimeout(() => {
       let responseContent = `Processed query "${query}" successfully with zero token loss and 38ms latency.`;
       if (query.toLowerCase().includes('build') || query.toLowerCase().includes('what can you')) {
-        responseContent = "I build production-ready AI applications, automated LLM workflows, full-stack enterprise portals, real-time database architectures, and custom developer tools.";
+        responseContent = "I design and build intelligent digital products—from AI-powered applications, document tools, and dashboards to scalable full-stack web platforms.";
       } else if (query.toLowerCase().includes('stack') || query.toLowerCase().includes('ai')) {
-        responseContent = "My AI engineering stack consists of LLM prompt orchestration (Gemini 2.5, GPT-4, Claude), Python, FastAPI, vector search, React, TypeScript, Supabase, and Vercel/Railway cloud deployments.";
+        responseContent = "My stack comprises React, TypeScript, Tailwind CSS, Python, FastAPI, Supabase, LLMs (Gemini, Claude, GPT), and continuous deployment pipelines.";
       } else if (query.toLowerCase().includes('projects') || query.toLowerCase().includes('tell me about')) {
-        responseContent = "Selected deployed projects include Smart-System-BACII Education Platform (active LLM workflow engine) and AI-Math Learning System (sub-50ms vector retrieval pipeline).";
+        responseContent = "Deployed projects include the Smart BAC II Education Platform and the AI Math Learning System, alongside several specialized platforms under active refinement.";
       } else if (query.toLowerCase().includes('approach')) {
-        responseContent = "My approach is research-driven: analyze requirements, design clean multi-agent or system architectures, write modular type-safe code, and iterate rapidly until high performance is achieved.";
+        responseContent = "I follow a continuous 6-stage engineering process: Discover → Design → Build → AI Integration → Deploy → Optimize.";
       }
       setMessages(prev => [...prev, { role: 'assistant', content: responseContent }]);
       setIsProcessing(false);
     }, 800);
   };
 
-  const capabilitiesData = [
+  const roadmapNodes = [
     {
-      title: "AI Engineering",
-      icon: <Bot className="w-5 h-5 text-red-500" />,
-      desc: "Integrating state-of-the-art LLMs (Claude, GPT, Gemini, DeepSeek) into production workflows with structured prompt engineering and vector memory layers.",
-      tech: "ChatGPT, Claude, Gemini, Codex, Qwen, Prompt Engineering, LLM Integration",
-      expect: "Autonomous multi-agent pipelines, intelligent copilot interfaces, and low-latency inference setups."
+      num: "01",
+      title: "DISCOVER",
+      summary: "Understand the problem",
+      details: ["Requirements", "Research", "User Goals", "Architecture"],
+      clientValue: "He doesn't just start coding. He understands what needs to be built."
     },
     {
-      title: "Full Stack Development",
-      icon: <Globe className="w-5 h-5 text-red-500" />,
-      desc: "Building end-to-end web applications with modern component architectures, fluid motion design, and high-performance frontend interfaces.",
-      tech: "React, TypeScript, JavaScript, Tailwind CSS, HTML, CSS, Component Architecture",
-      expect: "Clean responsive web applications with smooth Framer Motion interactions and immaculate typography."
+      num: "02",
+      title: "DESIGN",
+      summary: "Turn ideas into usable products",
+      details: ["User Flows", "UI Component Tokenization", "Database Structures", "System Schemas"],
+      clientValue: "He can turn my idea into an actual product structure."
     },
     {
-      title: "Backend Architecture",
-      icon: <Code2 className="w-5 h-5 text-red-500" />,
-      desc: "Designing robust server-side logic, secure RESTful APIs, authentication pipelines, and high-throughput business logic.",
-      tech: "Python, FastAPI, REST APIs, Auth, Business Logic, Security, Performance Optimization",
-      expect: "Scalable backend services engineered for reliability, speed, and strict security standards."
+      num: "03",
+      title: "BUILD",
+      summary: "Full-stack product development",
+      details: ["Responsive React/TS", "FastAPI Endpoints", "Supabase Auth & DB", "Business Logic"],
+      clientValue: "He can build the complete application."
     },
     {
-      title: "Database & Storage",
-      icon: <Database className="w-5 h-5 text-red-500" />,
-      desc: "Structuring performant relational databases with real-time subscriptions, secure auth storage, and optimized queries.",
-      tech: "SQL, Supabase, Relational Design, Real-Time Features, Storage Management",
-      expect: "Secure, structured data layers capable of handling dynamic real-time application states."
+      num: "04",
+      title: "INTELLIGENCE",
+      summary: "Add AI where it matters",
+      details: ["LLM Integration", "Vector Search", "Document AI", "Intelligent Workflows"],
+      clientValue: "He can integrate AI into my product instead of just building a normal website."
     },
     {
-      title: "Deployment & DevOps",
-      icon: <CpuIcon className="w-5 h-5 text-red-500" />,
-      desc: "Managing version control workflows and deploying containerized full-stack applications to modern cloud infrastructure.",
-      tech: "Git, GitHub, Vercel, Railway, Docker, Environment Variables, Cloud Deployment",
-      expect: "Zero-downtime continuous deployment pipelines and robust version-controlled codebases."
+      num: "05",
+      title: "DEPLOY",
+      summary: "Ship production-ready systems",
+      details: ["Vercel Edge & Railway", "Environment Config", "CI/CD Workflows", "Live Monitoring"],
+      clientValue: "He can actually take the project live."
     },
     {
-      title: "Research & Problem Solving",
-      icon: <Search className="w-5 h-5 text-red-500" />,
-      desc: "Rapidly breaking down unfamiliar technical obstacles, digesting official documentation, and iterating until a stable solution is achieved.",
-      tech: "Documentation Analysis, Kali Linux, Terminal, Debugging, Quick Adaptation",
-      expect: "Resilient troubleshooting and rapid mastery of new frameworks or developer tools on demand."
+      num: "06",
+      title: "OPTIMIZE",
+      summary: "Improve, monitor, and evolve",
+      details: ["Performance Tuning", "UX Refinement", "Bug Squashing", "Continuous Iteration"],
+      clientValue: "The project doesn't end when the first version is deployed."
     }
   ];
 
+  const solutionCards = [
+    {
+      title: "AI-Powered Applications",
+      desc: "AI assistants, intelligent workflows, document intelligence, AI automation, and LLM-powered products."
+    },
+    {
+      title: "Business Management Systems",
+      desc: "Admin dashboards, management platforms, internal tools, reporting systems, and workflow automation."
+    },
+    {
+      title: "E-Commerce Platforms",
+      desc: "Modern online stores with product management, authentication, orders, payments, dashboards, and responsive UX."
+    },
+    {
+      title: "Education Platforms",
+      desc: "Learning platforms, quizzes, student dashboards, educational tools, progress tracking, and AI-assisted learning."
+    },
+    {
+      title: "Custom Web Applications",
+      desc: "Unique web products designed around specific business requirements instead of generic templates."
+    },
+    {
+      title: "AI Automation Tools",
+      desc: "Automate repetitive workflows using AI, APIs, agents, data processing, and intelligent decision systems."
+    },
+    {
+      title: "Portfolio & Professional Websites",
+      desc: "High-end personal brands, portfolios, landing pages, and professional websites designed to convert visitors."
+    },
+    {
+      title: "Dashboards & Data Systems",
+      desc: "Real-time dashboards, analytics interfaces, data management systems, and operational control panels."
+    }
+  ];
+
+  const clientValuePoints = [
+    "01  Clear product architecture",
+    "02  Modern user experience",
+    "03  AI integration when valuable",
+    "04  Responsive frontend",
+    "05  Secure backend & database",
+    "06  Production deployment",
+    "07  Performance optimization",
+    "08  Continued iteration"
+  ];
+
   const techWallData = [
-    { name: "React", category: "Frontend", desc: "Component-based UI library for building scalable, responsive web applications.", projectsUsed: "Portfolio, Multi-Agent Co-pilot Workspace", reason: "Chosen for component modularity and vast ecosystem support." },
-    { name: "TypeScript", category: "Language", desc: "Typed superset of JavaScript ensuring robust type safety and maintainability.", projectsUsed: "Autonomous Agent Orchestrator, All Core Apps", reason: "Eliminates runtime errors and provides pristine IDE autocomplete." },
-    { name: "Python", category: "Backend / AI", desc: "Core language for backend server architectures and AI model integration scripts.", projectsUsed: "Neural RAG Search Engine, API Pipelines", reason: "Industry standard for AI, machine learning, and rapid scripting." },
-    { name: "FastAPI", category: "Backend", desc: "High-performance Python web framework for building fast RESTful APIs.", projectsUsed: "Backend Data Services & Agent APIs", reason: "Blazing speed, automatic Swagger docs, and native async support." },
-    { name: "Tailwind CSS", category: "Styling", desc: "Utility-first CSS framework for crafting bespoke editorial dark luxury interfaces.", projectsUsed: "All Web Applications & Portfolios", reason: "Unmatched styling speed and pristine design consistency." },
-    { name: "Supabase", category: "Database", desc: "Open-source Firebase alternative with PostgreSQL, Auth, and Realtime features.", projectsUsed: "User Management & Data Storage Pipelines", reason: "Provides instant database scaffolding with robust security policies." },
-    { name: "Docker", category: "DevOps", desc: "Containerization tool for packaging applications and dependencies reliably.", projectsUsed: "Local Development & Server Deployment", reason: "Ensures identical environments across development and production." },
-    { name: "Vercel", category: "Cloud", desc: "Cloud platform for static sites and serverless frontend deployments.", projectsUsed: "Portfolio & Frontend Apps", reason: "Instant global deployments, SSL, and optimal edge performance." },
-    { name: "Railway", category: "Cloud", desc: "Infrastructure platform for deploying backend services, databases, and APIs.", projectsUsed: "FastAPI Backend & Agent Services", reason: "Effortless server management and seamless environment variable sync." },
-    { name: "Git & GitHub", category: "Versioning", desc: "Version control system and collaboration platform for source code management.", projectsUsed: "All Projects & Repositories", reason: "Essential for tracking code history and collaborative deployment." },
-    { name: "VS Code", category: "Environment", desc: "Extensible source code editor tailored with custom AI extensions.", projectsUsed: "Primary Development Environment", reason: "Unrivaled extension ecosystem and deep terminal integration." },
-    { name: "Kali Linux", category: "Security", desc: "Linux distribution focused on advanced penetration testing and security auditing.", projectsUsed: "Network Analysis & Security Testing", reason: "Essential toolkit for understanding cybersecurity and system hardening." }
+    { 
+      name: "React", 
+      category: "Frontend", 
+      desc: "Component-based UI library for building scalable, responsive web applications.", 
+      projectsUsed: "Portfolio, BAC II Platform, Math Learning System", 
+      reason: "Chosen for component modularity and vast ecosystem support.",
+      icon: <SiReact className="w-5 h-5 text-zinc-400 group-hover:text-[#61DAFB] transition-colors" aria-hidden="true" /> 
+    },
+    { 
+      name: "TypeScript", 
+      category: "Language", 
+      desc: "Typed superset of JavaScript ensuring robust type safety and maintainability.", 
+      projectsUsed: "All Core Web Products", 
+      reason: "Eliminates runtime errors and provides pristine IDE autocomplete.",
+      icon: <SiTypescript className="w-5 h-5 text-zinc-400 group-hover:text-[#3178C6] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Python", 
+      category: "Backend / AI", 
+      desc: "Core language for backend server architectures and AI model integration scripts.", 
+      projectsUsed: "BAC II AI Backend, Fast Vector Pipeline", 
+      reason: "Industry standard for AI, machine learning, and rapid scripting.",
+      icon: <SiPython className="w-5 h-5 text-zinc-400 group-hover:text-[#3776AB] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "FastAPI", 
+      category: "Backend", 
+      desc: "High-performance Python web framework for building fast RESTful APIs.", 
+      projectsUsed: "AI Microservices & Math Engine API", 
+      reason: "Blazing speed, automatic Swagger docs, and native async support.",
+      icon: <SiFastapi className="w-5 h-5 text-zinc-400 group-hover:text-[#009688] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Tailwind CSS", 
+      category: "Styling", 
+      desc: "Utility-first CSS framework for crafting bespoke dark editorial interfaces.", 
+      projectsUsed: "All Web Interfaces", 
+      reason: "Unmatched styling speed and pristine design consistency.",
+      icon: <SiTailwindcss className="w-5 h-5 text-zinc-400 group-hover:text-[#06B6D4] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Supabase", 
+      category: "Database", 
+      desc: "Open-source Firebase alternative with PostgreSQL, Auth, and Realtime features.", 
+      projectsUsed: "BAC II Platform & User Storage", 
+      reason: "Provides instant database scaffolding with robust security policies.",
+      icon: <SiSupabase className="w-5 h-5 text-zinc-400 group-hover:text-[#3ECF8E] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Docker", 
+      category: "DevOps", 
+      desc: "Containerization tool for packaging applications and dependencies reliably.", 
+      projectsUsed: "Local Development & Backend Services", 
+      reason: "Ensures identical environments across development and production.",
+      icon: <SiDocker className="w-5 h-5 text-zinc-400 group-hover:text-[#2496ED] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Vercel", 
+      category: "Cloud", 
+      desc: "Cloud platform for static sites and serverless frontend deployments.", 
+      projectsUsed: "Frontend Applications & Demos", 
+      reason: "Instant global deployments, SSL, and optimal edge performance.",
+      icon: <SiVercel className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Railway", 
+      category: "Cloud", 
+      desc: "Infrastructure platform for deploying backend services, databases, and APIs.", 
+      projectsUsed: "FastAPI & Python Pipelines", 
+      reason: "Effortless server management and seamless environment variable sync.",
+      icon: <SiRailway className="w-5 h-5 text-zinc-400 group-hover:text-[#0B0D0E] dark:group-hover:text-white transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "Git", 
+      category: "Versioning", 
+      desc: "Distributed version control system for tracking changes in source code.", 
+      projectsUsed: "All Repositories", 
+      reason: "Essential for tracking code history and managing code revisions.",
+      icon: <SiGit className="w-5 h-5 text-zinc-400 group-hover:text-[#F05032] transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "GitHub", 
+      category: "Versioning", 
+      desc: "Cloud platform for git repository hosting, code reviews, and CI/CD automation.", 
+      projectsUsed: "All Repositories", 
+      reason: "Industry benchmark for project management and remote team collaboration.",
+      icon: <SiGithub className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" aria-hidden="true" />
+    },
+    { 
+      name: "VS Code", 
+      category: "Environment", 
+      desc: "Extensible source code editor tailored with custom AI extensions.", 
+      projectsUsed: "Primary Workspace", 
+      reason: "Unrivaled extension ecosystem and deep terminal integration.",
+      icon: (
+        <img
+          src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/visual-studio-code.svg"
+          alt=""
+          aria-hidden="true"
+          className="w-5 h-5 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+        />
+      )
+    },
+    { 
+      name: "Kali Linux", 
+      category: "Security", 
+      desc: "Linux distribution focused on security auditing and network testing.", 
+      projectsUsed: "Security & System Hardening Audits", 
+      reason: "Essential toolkit for understanding cybersecurity and web safety.",
+      icon: <SiKalilinux className="w-5 h-5 text-zinc-400 group-hover:text-[#557CDA] transition-colors" aria-hidden="true" />
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-[#0c0c0c] text-[#e4e2e1] selection:bg-red-600 selection:text-white font-mono-tech relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#0c0c0c] text-[#e4e2e1] selection:bg-red-600 selection:text-white font-mono relative overflow-x-hidden">
       
       {/* Dynamic Scroll Progress Bar */}
       <motion.div 
@@ -557,9 +767,7 @@ export const PortfolioMaster: React.FC = () => {
         whileInView={{ scaleX: 1 }}
       />
 
-      {/* -------------------------------------------------------------------- */}
-      {/*                        SHARED BOOT LOADING SCREEN                    */}
-      {/* -------------------------------------------------------------------- */}
+      {/* BOOT LOADING SCREEN */}
       <AnimatePresence>
         {!isLoaded && (
           <motion.div 
@@ -589,7 +797,6 @@ export const PortfolioMaster: React.FC = () => {
               >
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-transparent"></div>
                 
-                {/* Subtle Glow Scanner Pass */}
                 <motion.div 
                   animate={{ x: ['-100%', '200%'] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
@@ -668,9 +875,7 @@ export const PortfolioMaster: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* -------------------------------------------------------------------- */}
-      {/*                       DESKTOP HEADER (< 768px hidden)                */}
-      {/* -------------------------------------------------------------------- */}
+      {/* DESKTOP HEADER */}
       <motion.header 
         initial={{ y: -30, opacity: 0, filter: 'blur(10px)' }}
         animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
@@ -705,9 +910,7 @@ export const PortfolioMaster: React.FC = () => {
         </nav>
       </motion.header>
 
-      {/* -------------------------------------------------------------------- */}
-      {/*                        MOBILE HEADER (< 768px)                      */}
-      {/* -------------------------------------------------------------------- */}
+      {/* MOBILE HEADER */}
       <header className="md:hidden fixed top-0 left-0 w-full z-50 bg-[#0c0c0c]/95 backdrop-blur-md border-b border-[#222] px-5 py-3.5 flex justify-between items-center pt-[calc(0.875rem+env(safe-area-inset-top))]">
         <div className="text-xs tracking-widest uppercase text-white font-bold flex items-center gap-2 font-mono">
           <span className="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
@@ -723,7 +926,7 @@ export const PortfolioMaster: React.FC = () => {
         </motion.button>
       </header>
 
-      {/* MOBILE FULL-SCREEN / BOTTOM-SHEET NAV MENU */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
@@ -753,8 +956,8 @@ export const PortfolioMaster: React.FC = () => {
             >
               {[
                 { name: 'About', href: '#about', num: '01' },
-                { name: 'Skills', href: '#skills', num: '02' },
-                { name: 'Projects', href: '#projects', num: '03' },
+                { name: 'Capabilities', href: '#skills', num: '02' },
+                { name: 'Selected Projects', href: '#projects', num: '03' },
                 { name: 'AI Copilot', href: '#copilot', num: '04' },
                 { name: 'Contact', href: '#contact', num: '05' }
               ].map((item) => (
@@ -789,9 +992,7 @@ export const PortfolioMaster: React.FC = () => {
         className="pt-16 md:pt-8"
       >
         
-        {/* =================================================----------------- */}
-        {/* HERO SECTION — DESKTOP VIEW (>= 768px)                             */}
-        {/* =================================================----------------- */}
+        {/* HERO SECTION — DESKTOP */}
         <section className="hidden md:block relative px-6 md:px-16 pt-12 pb-24 border-b border-[#222] max-w-[1440px] mx-auto overflow-hidden">
           <div className="flex justify-between items-center mb-8 text-xs tracking-widest uppercase text-zinc-500 relative z-10 font-mono">
             <span className="text-red-500 font-semibold">// AI ENGINEERING & FULL-STACK</span>
@@ -802,7 +1003,6 @@ export const PortfolioMaster: React.FC = () => {
           </div>
 
           <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[580px]">
-            {/* Background Parallax Typography */}
             <motion.div 
               animate={{ x: [0, -15, 0] }}
               transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
@@ -813,7 +1013,6 @@ export const PortfolioMaster: React.FC = () => {
               </span>
             </motion.div>
 
-            {/* Hero Left Content Sequence */}
             <motion.div 
               variants={staggerContainerVariant}
               initial="hidden"
@@ -837,7 +1036,6 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Profile Image Entrance & Interactive Hover */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
               animate={isLoaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : {}}
@@ -866,7 +1064,6 @@ export const PortfolioMaster: React.FC = () => {
               </motion.div>
             </motion.div>
 
-            {/* Identity Blocks Sequence */}
             <motion.div 
               variants={staggerContainerVariant}
               initial="hidden"
@@ -896,11 +1093,8 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </section>
 
-        {/* =================================================----------------- */}
-        {/* HERO SECTION — MOBILE DEDICATED VIEW (< 768px)                     */}
-        {/* =================================================----------------- */}
+        {/* HERO SECTION — MOBILE */}
         <section className="md:hidden px-5 pt-6 pb-12 border-b border-[#222] space-y-6">
-          {/* 01 Identity */}
           <motion.div 
             variants={fadeUpVariant}
             initial="hidden"
@@ -921,7 +1115,6 @@ export const PortfolioMaster: React.FC = () => {
             </p>
           </motion.div>
 
-          {/* 02 Profile Card */}
           <motion.div 
             variants={fadeUpVariant}
             initial="hidden"
@@ -942,7 +1135,6 @@ export const PortfolioMaster: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* 03 Compact Identity Cards */}
           <motion.div 
             variants={staggerContainerVariant}
             initial="hidden"
@@ -972,7 +1164,6 @@ export const PortfolioMaster: React.FC = () => {
             ))}
           </motion.div>
 
-          {/* Hero CTAs */}
           <div className="grid grid-cols-2 gap-3 pt-2">
             <motion.a 
               whileTap={{ scale: 0.96 }}
@@ -991,9 +1182,7 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </section>
 
-        {/* =================================================----------------- */}
-        {/* ABOUT ME SECTION — SHARED LAYOUT WITH MOBILE TOUCH ADAPTATIONS    */}
-        {/* =================================================----------------- */}
+        {/* ABOUT ME SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1006,12 +1195,10 @@ export const PortfolioMaster: React.FC = () => {
             
             <div className="lg:col-span-7 space-y-8 md:space-y-12">
               <div>
-                {/* Desktop typewriter */}
                 <div className="hidden md:block">
                   <TypewriterHeading />
                 </div>
                 
-                {/* Mobile clean header */}
                 <div className="md:hidden mb-4">
                   <span className="text-xs font-mono text-red-500 tracking-widest uppercase block mb-1">// INFORMATION</span>
                   <h2 className="font-display text-3xl font-black text-white uppercase tracking-tight">ABOUT ME</h2>
@@ -1027,7 +1214,6 @@ export const PortfolioMaster: React.FC = () => {
                 </div>
               </div>
 
-              {/* Technical Arsenal Chips */}
               <div className="space-y-4">
                 <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// TECHNICAL ARSENAL & TOOLS</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -1084,9 +1270,7 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </div>
 
-            {/* Profile Image & Evolution Roadmap */}
             <div className="lg:col-span-5 flex justify-center">
-              {/* DESKTOP HOVER CARD */}
               <div className="hidden md:block relative w-full max-w-[360px] h-[520px] rounded-xl border border-red-900/40 bg-[#121212] shadow-2xl overflow-hidden group cursor-pointer">
                 <div className="absolute inset-0 transition-all duration-500 group-hover:opacity-0 group-hover:scale-95 z-10 pointer-events-none">
                   <img 
@@ -1144,7 +1328,6 @@ export const PortfolioMaster: React.FC = () => {
                 </div>
               </div>
 
-              {/* MOBILE TAP-TO-REVEAL EVOLUTION CARD */}
               <div className="md:hidden w-full border border-red-900/40 bg-[#121212] rounded-2xl overflow-hidden shadow-xl p-5">
                 <AnimatePresence mode="wait">
                   {!showRoadmapMobile ? (
@@ -1224,9 +1407,7 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </motion.section>
 
-        {/* =================================================----------------- */}
-        {/* CAPABILITIES SECTION — DESKTOP + MOBILE EXPANDABLE LIST            */}
-        {/* =================================================----------------- */}
+        {/* CAPABILITIES SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1237,19 +1418,20 @@ export const PortfolioMaster: React.FC = () => {
         >
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#dc2626 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
-          <div className="relative z-10 space-y-12 md:space-y-24">
+          <div className="relative z-10 space-y-16 md:space-y-24">
             
+            {/* SECTION HEADER */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
               <div className="lg:col-span-7 space-y-4 md:space-y-6">
                 <div className="flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-red-500 font-semibold">
                   <span className="w-2 h-2 bg-red-600 animate-ping rounded-full"></span>
                   <span>// ENGINEERING CAPABILITIES</span>
                 </div>
-                <h2 className="font-display text-3xl md:text-7xl text-white uppercase tracking-tight">
+                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight font-black">
                   WHAT I CAN <span className="italic text-red-600">BUILD.</span>
                 </h2>
-                <p className="text-xs text-zinc-400 font-sans">
-                  From AI-powered products to production-ready full-stack systems.
+                <p className="text-sm md:text-base text-zinc-300 font-sans leading-relaxed max-w-2xl">
+                  I design and build intelligent digital products — from AI-powered applications and business systems to scalable full-stack platforms.
                 </p>
               </div>
 
@@ -1258,188 +1440,186 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </div>
 
-            {/* CAPABILITY CARDS */}
+            {/* ROADMAP */}
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// 6 CORE DOMAINS</h3>
+                <span className="text-xs font-bold font-mono uppercase tracking-widest text-red-500 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-red-500 animate-pulse" />
+                  // CAPABILITY JOURNEY & PIPELINE
+                </span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest hidden sm:inline">[LIVE ENGINEERING PIPELINE]</span>
               </div>
 
-              {/* Desktop 3-column Grid */}
-              <motion.div 
-                variants={staggerContainerVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              {/* DESKTOP HORIZONTAL ROADMAP */}
+              <div 
+                ref={roadmapCardRef}
+                onMouseMove={handleRoadmapMouseMove}
+                onMouseEnter={() => setIsRoadmapHovered(true)}
+                onMouseLeave={() => setIsRoadmapHovered(false)}
+                className="hidden md:block relative py-12 px-4 border border-[#222] bg-[#0e0e0e]/90 rounded-2xl shadow-2xl overflow-hidden"
               >
-                {capabilitiesData.map((card, idx) => (
-                  <motion.div 
-                    key={idx}
-                    variants={staggerItemVariant}
-                    whileHover={{ y: -6, borderColor: "rgba(220, 38, 38, 0.8)" }}
-                    transition={{ duration: 0.25, ease: PREMIUM_EASE }}
-                    className="border border-[#222] bg-[#121212] p-6 rounded-xl flex flex-col justify-between group shadow-xl relative overflow-hidden"
-                  >
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <div className="w-10 h-10 rounded-lg bg-red-950/30 border border-red-900/40 flex items-center justify-center group-hover:border-red-600/60 transition-colors">
-                          {card.icon}
-                        </div>
-                        <span className="text-[10px] font-mono text-zinc-500 uppercase">MODULE_0{idx + 1}</span>
-                      </div>
-                      <h4 className="font-display text-xl text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
-                        {card.title}
-                      </h4>
-                      <p className="text-xs text-zinc-400 leading-relaxed font-sans">{card.desc}</p>
-                      <div className="pt-3 border-t border-[#222]/80 space-y-1">
-                        <p className="text-[10px] text-red-400 uppercase tracking-widest font-bold font-mono">Tech Stack:</p>
-                        <p className="text-[11px] text-zinc-300 font-mono">{card.tech}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-950/10 via-transparent to-red-950/10 pointer-events-none"></div>
 
-              {/* Mobile Vertical Accordion / Expandable List */}
-              <div className="md:hidden space-y-3">
-                {capabilitiesData.map((card, idx) => {
-                  const isExpanded = expandedCapability === idx;
-                  return (
-                    <div 
-                      key={idx}
-                      className="border border-[#222] bg-[#121212] rounded-xl overflow-hidden transition-colors active:border-red-600"
-                    >
-                      <button
-                        onClick={() => setExpandedCapability(isExpanded ? null : idx)}
-                        className="w-full p-4 flex items-center justify-between text-left"
+                <div className="absolute top-[82px] left-[7%] right-[7%] h-[2px] bg-zinc-800">
+                  <motion.div 
+                    style={{ left: smoothXPercent, x: '-50%' }}
+                    animate={{ opacity: isRoadmapHovered ? 1 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-1/2 -translate-y-1/2 w-32 h-[3px] bg-gradient-to-r from-transparent via-red-500 to-red-600 shadow-[0_0_12px_#dc2626] pointer-events-none"
+                  >
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_10px_#dc2626]"></div>
+                  </motion.div>
+                </div>
+
+                <div className="grid grid-cols-6 gap-3 relative z-10">
+                  {roadmapNodes.map((node, idx) => {
+                    const isHovered = hoveredRoadmapNode === idx;
+                    return (
+                      <div 
+                        key={node.num}
+                        onMouseEnter={() => setHoveredRoadmapNode(idx)}
+                        onMouseLeave={() => setHoveredRoadmapNode(null)}
+                        className="flex flex-col items-center text-center group cursor-pointer"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-red-950/40 border border-red-900/40 flex items-center justify-center shrink-0">
-                            {card.icon}
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-bold text-white uppercase">{card.title}</h4>
-                            <p className="text-[10px] text-zinc-400 line-clamp-1">{card.desc}</p>
-                          </div>
-                        </div>
-                        <ChevronDown className={`w-4 h-4 text-red-500 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
-                      </button>
+                        <motion.div 
+                          animate={isHovered ? { y: -6 } : { y: 0 }}
+                          transition={{ duration: 0.2, ease: PREMIUM_EASE }}
+                          className={`w-12 h-12 rounded-full border flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 relative bg-[#0c0c0c] ${
+                            isHovered 
+                              ? 'border-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.6)] bg-red-950/40 scale-110' 
+                              : 'border-zinc-800 text-red-500 group-hover:border-red-600/80'
+                          }`}
+                        >
+                          {node.num}
+                          <div className={`absolute inset-0 rounded-full animate-ping opacity-20 bg-red-600 ${isHovered ? 'block' : 'hidden'}`}></div>
+                        </motion.div>
 
-                      <AnimatePresence>
-                        {isExpanded && (
-                          <motion.div 
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: PREMIUM_EASE }}
-                            className="px-4 pb-4 pt-1 border-t border-[#222] space-y-3 bg-black/40 text-xs overflow-hidden"
-                          >
-                            <p className="text-zinc-300 font-sans leading-relaxed pt-2">{card.desc}</p>
-                            <div>
-                              <span className="text-[10px] font-mono text-red-400 font-bold block uppercase">Tech Stack:</span>
-                              <span className="text-[11px] font-mono text-zinc-400">{card.tech}</span>
-                            </div>
-                            <div>
-                              <span className="text-[10px] font-mono text-red-400 font-bold block uppercase">Client Expectation:</span>
-                              <span className="text-[11px] font-sans text-zinc-300">{card.expect}</span>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                        <div className="mt-6 space-y-2 px-1">
+                          <h4 className="font-display text-base uppercase font-bold text-white group-hover:text-red-500 transition-colors">
+                            {node.title}
+                          </h4>
+                          <p className="text-[11px] text-zinc-400 font-sans leading-tight">
+                            {node.summary}
+                          </p>
+
+                          <div className="flex flex-wrap justify-center gap-1 pt-2">
+                            {node.details.map((detail, dIdx) => (
+                              <span key={dIdx} className="text-[9px] font-mono px-1.5 py-0.5 bg-[#161616] border border-[#2a2a2a] text-zinc-400 rounded">
+                                {detail}
+                              </span>
+                            ))}
+                          </div>
+
+                          <AnimatePresence>
+                            {isHovered && (
+                              <motion.div 
+                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                                className="mt-3 p-3 bg-black/95 border border-red-600/60 rounded-xl shadow-2xl text-[10px] text-left text-zinc-300 font-mono"
+                              >
+                                <span className="text-red-400 font-bold block mb-1 uppercase">// CLIENT IMPACT</span>
+                                <p className="italic text-white">"{node.clientValue}"</p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* MOBILE VERTICAL ROADMAP */}
+              <div className="md:hidden relative py-6 px-4 border border-[#222] bg-[#0e0e0e] rounded-2xl shadow-xl overflow-hidden">
+                <div className="absolute top-8 bottom-8 left-8 w-[2px] bg-zinc-800"></div>
+
+                <div className="space-y-8 relative z-10 pl-14">
+                  {roadmapNodes.map((node) => (
+                    <div key={node.num} className="relative">
+                      <div className="absolute -left-14 top-0 w-8 h-8 rounded-full border border-red-600/60 bg-[#0c0c0c] flex items-center justify-center font-mono text-[10px] font-bold text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]">
+                        {node.num}
+                      </div>
+
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-display text-lg font-bold text-white uppercase">{node.title}</h4>
+                        </div>
+                        <p className="text-xs text-zinc-300 font-sans font-medium">{node.summary}</p>
+                        
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {node.details.map((detail, dIdx) => (
+                            <span key={dIdx} className="text-[9px] font-mono px-2 py-0.5 bg-[#161616] border border-[#262626] text-zinc-400 rounded">
+                              {detail}
+                            </span>
+                          ))}
+                        </div>
+
+                        <p className="text-[10px] font-mono italic text-red-400 pt-1">
+                          "{node.clientValue}"
+                        </p>
+                      </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* WHAT I CAN BUILD (2-Column Grid on Mobile) */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// DELIVERABLE SOLUTIONS</h3>
+            {/* SOLUTION CARDS */}
+            <div className="space-y-8">
+              <div>
+                <span className="text-xs font-mono tracking-widest uppercase text-red-500 font-bold block mb-1">
+                  // WHAT I CAN BUILD FOR YOU
+                </span>
+                <h3 className="font-display text-3xl md:text-5xl text-white uppercase tracking-tight font-black">
+                  FROM IDEA → <span className="text-red-600">WORKING PRODUCT.</span>
+                </h3>
               </div>
+
               <motion.div 
                 variants={staggerContainerVariant}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
               >
-                {[
-                  "AI Applications",
-                  "Business Management Systems",
-                  "E-Commerce Platforms",
-                  "Attendance Systems",
-                  "Learning Platforms",
-                  "Portfolio Websites",
-                  "Automation Tools",
-                  "Dashboard Systems"
-                ].map((item, idx) => (
+                {solutionCards.map((card, idx) => (
                   <motion.div 
                     key={idx}
                     variants={staggerItemVariant}
-                    whileHover={{ scale: 1.03, borderColor: '#dc2626' }}
-                    className="border border-[#222] bg-[#121212] p-3.5 rounded-xl text-center font-bold text-white uppercase text-[11px] flex items-center justify-center gap-2 shadow cursor-default"
+                    whileHover={{ y: -5, borderColor: '#dc2626' }}
+                    className="border border-[#222] bg-[#121212] p-5 rounded-xl space-y-3 shadow-lg group transition-colors"
                   >
-                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                    <span>{item}</span>
+                    <div className="w-8 h-8 rounded-lg bg-red-950/30 border border-red-900/40 flex items-center justify-center font-mono text-xs font-bold text-red-500 group-hover:border-red-600">
+                      0{idx + 1}
+                    </div>
+                    <h4 className="font-display text-base font-bold text-white uppercase group-hover:text-red-500 transition-colors">
+                      {card.title}
+                    </h4>
+                    <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                      {card.desc}
+                    </p>
                   </motion.div>
                 ))}
               </motion.div>
             </div>
 
-            {/* ENGINEERING WORKFLOW (Vertical Timeline on Mobile) */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// ENGINEERING WORKFLOW</h3>
+            {/* CLIENT VALUE STRIP */}
+            <div className="border border-red-900/40 bg-gradient-to-r from-red-950/20 via-[#121212] to-red-950/20 p-6 md:p-8 rounded-2xl shadow-2xl space-y-6">
+              <div className="flex items-center justify-between border-b border-red-900/30 pb-3">
+                <span className="text-xs font-mono text-red-500 font-bold tracking-widest uppercase flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-red-500" />
+                  // WHAT YOU GET
+                </span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">[CLIENT VALUE GUARANTEE]</span>
               </div>
-              
-              {/* Desktop 7-Column */}
-              <motion.div 
-                variants={staggerContainerVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="hidden md:grid grid-cols-7 gap-4"
-              >
-                {[
-                  { step: "01", name: "Research", desc: "Requirements & docs" },
-                  { step: "02", name: "Planning", desc: "DB schemas & UI" },
-                  { step: "03", name: "Architecture", desc: "Full-stack design" },
-                  { step: "04", name: "Development", desc: "Clean React & Python" },
-                  { step: "05", name: "Testing", desc: "Debug & optimize" },
-                  { step: "06", name: "Deployment", desc: "Vercel / Railway" },
-                  { step: "07", name: "Iteration", desc: "Continuous improvements" }
-                ].map((wf, idx) => (
-                  <motion.div 
-                    key={idx} 
-                    variants={staggerItemVariant}
-                    whileHover={{ y: -3, borderColor: '#dc2626' }}
-                    className="border border-[#222] bg-[#121212] p-4 rounded-lg transition-colors"
-                  >
-                    <span className="text-red-600 font-mono text-xs font-bold block mb-1">{wf.step}</span>
-                    <h4 className="text-white uppercase font-bold text-xs mb-1 font-mono">{wf.name}</h4>
-                    <p className="text-[10px] text-zinc-400 font-sans">{wf.desc}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
 
-              {/* Mobile Vertical List */}
-              <div className="md:hidden space-y-2.5">
-                {[
-                  { step: "01", name: "RESEARCH", desc: "Understand the problem and requirements." },
-                  { step: "02", name: "PLANNING", desc: "Structure the product and architecture." },
-                  { step: "03", name: "ARCHITECTURE", desc: "Design the full-stack system." },
-                  { step: "04", name: "DEVELOPMENT", desc: "Build clean, performant code." },
-                  { step: "05", name: "TESTING", desc: "Debug errors and optimize performance." },
-                  { step: "06", name: "DEPLOYMENT", desc: "Ship containerized builds to production." },
-                  { step: "07", name: "ITERATION", desc: "Refine and improve continuously." }
-                ].map((wf) => (
-                  <div key={wf.step} className="border border-[#222] bg-[#121212] p-3.5 rounded-xl flex items-start gap-3">
-                    <span className="text-xs font-mono text-red-500 font-bold pt-0.5">{wf.step}</span>
-                    <div>
-                      <h4 className="text-xs font-bold text-white uppercase font-mono">{wf.name}</h4>
-                      <p className="text-[11px] text-zinc-400 font-sans mt-0.5">{wf.desc}</p>
-                    </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs text-zinc-200">
+                {clientValuePoints.map((point, idx) => (
+                  <div key={idx} className="flex items-center gap-3 p-3 bg-[#0a0a0a]/80 border border-[#222] rounded-xl hover:border-red-600/50 transition-colors">
+                    <Check className="w-4 h-4 text-red-500 shrink-0" />
+                    <span>{point}</span>
                   </div>
                 ))}
               </div>
@@ -1448,7 +1628,7 @@ export const PortfolioMaster: React.FC = () => {
             {/* TECHNOLOGY WALL */}
             <div className="space-y-4">
               <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// TECHNOLOGY WALL</h3>
+                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// TECHNOLOGY STACK & TOOLS</h3>
               </div>
               <motion.div 
                 variants={staggerContainerVariant}
@@ -1464,57 +1644,24 @@ export const PortfolioMaster: React.FC = () => {
                     whileHover={{ scale: 1.04, borderColor: '#dc2626' }}
                     whileTap={{ scale: 0.96 }}
                     onClick={() => setActiveTechModal(tech)}
-                    className="border border-[#222] bg-[#121212] p-3.5 rounded-xl cursor-pointer active:border-red-600 transition-colors"
+                    className="border border-[#222] bg-[#121212] p-3.5 rounded-xl cursor-pointer hover:border-red-600 transition-colors group flex items-center gap-3"
                   >
-                    <span className="text-[10px] text-red-500 uppercase font-mono block mb-0.5">{tech.category}</span>
-                    <h4 className="text-white font-bold uppercase text-xs font-mono">{tech.name}</h4>
+                    <div className="shrink-0">
+                      {tech.icon}
+                    </div>
+                    <div className="overflow-hidden">
+                      <span className="text-[9px] text-red-500 uppercase font-mono block leading-none mb-1">{tech.category}</span>
+                      <h4 className="text-white font-bold uppercase text-xs font-mono truncate">{tech.name}</h4>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
             </div>
 
-            {/* RESEARCH / PROBLEM SOLVING */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border border-[#222] bg-[#121212] p-6 rounded-xl space-y-4">
-                <div className="flex items-center gap-2 text-xs text-red-500 font-bold font-mono">
-                  <Compass className="w-4 h-4 text-red-500" />
-                  <span>// HOW I LEARN & ADAPT</span>
-                </div>
-                <div className="space-y-2 text-xs text-zinc-300 font-sans">
-                  <p>• Learn unfamiliar technologies rapidly on project demand.</p>
-                  <p>• Break complex problems into testable components.</p>
-                  <p>• Study official documentation & technical papers deeply.</p>
-                  <p>• Experiment in local sandboxes and debug systematically.</p>
-                </div>
-              </div>
-
-              <div className="border border-[#222] bg-[#121212] p-6 rounded-xl space-y-4">
-                <div className="flex items-center gap-2 text-xs text-red-500 font-bold font-mono">
-                  <TerminalSquare className="w-4 h-4 text-red-500" />
-                  <span>// HOW I SOLVE PROBLEMS</span>
-                </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-zinc-300">
-                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded">Challenge</span>
-                  <span>→</span>
-                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded">Research</span>
-                  <span>→</span>
-                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded">Prototype</span>
-                  <span>→</span>
-                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded">Debug</span>
-                  <span>→</span>
-                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded">Optimize</span>
-                  <span>→</span>
-                  <span className="px-2.5 py-1 bg-red-950/60 border border-red-700 text-red-400 rounded font-bold">Deliver</span>
-                </div>
-              </div>
-            </div>
-
           </div>
         </motion.section>
 
-        {/* =================================================----------------- */}
-        {/* PROJECTS SECTION — DESKTOP COVERFLOW vs MOBILE VERTICAL CARDS      */}
-        {/* =================================================----------------- */}
+        {/* PROJECTS SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1523,19 +1670,19 @@ export const PortfolioMaster: React.FC = () => {
           id="projects" 
           className="px-5 md:px-16 py-16 md:py-28 border-b border-[#222] max-w-[1440px] mx-auto overflow-hidden"
         >
-          <div className="text-center mb-10 md:mb-16">
-            <span className="text-xs font-mono tracking-widest uppercase text-red-500 block mb-2">// WORKSPACE</span>
-            <h2 className="font-display text-3xl md:text-6xl text-white uppercase tracking-tight">
+          <div className="text-center mb-10 md:mb-16 space-y-2">
+            <span className="text-xs font-mono tracking-widest uppercase text-red-500 block">// WORKSPACE</span>
+            <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight font-black">
               SELECTED <span className="italic text-red-600">PROJECTS.</span>
             </h2>
-            <p className="text-xs text-zinc-400 mt-2 font-sans">
-              A selection of systems, applications, and products I've designed and deployed.
+            <p className="text-xs md:text-sm text-zinc-400 font-sans max-w-xl mx-auto">
+              Real-world software platforms, AI applications, and specialized tools I have designed and engineered.
             </p>
           </div>
 
-          {/* DESKTOP 3D COVERFLOW (>= 768px) */}
+          {/* DESKTOP 3D COVERFLOW */}
           <div 
-            className="hidden md:flex relative w-full h-[520px] md:h-[580px] items-center justify-center cursor-pointer select-none"
+            className="hidden md:flex relative w-full h-[540px] md:h-[600px] items-center justify-center cursor-pointer select-none"
             onMouseEnter={() => setIsCarouselHovered(true)}
             onMouseLeave={() => setIsCarouselHovered(false)}
           >
@@ -1548,11 +1695,11 @@ export const PortfolioMaster: React.FC = () => {
                 const absOffset = Math.abs(offset);
                 const isActive = offset === 0;
 
-                let translateX = offset * 240;
-                let scale = 1 - absOffset * 0.15;
-                let rotateY = offset * -25;
+                let translateX = offset * 260;
+                let scale = 1 - absOffset * 0.14;
+                let rotateY = offset * -22;
                 let zIndex = 50 - absOffset * 10;
-                let opacity = 1 - absOffset * 0.35;
+                let opacity = 1 - absOffset * 0.3;
 
                 return (
                   <motion.div
@@ -1564,26 +1711,61 @@ export const PortfolioMaster: React.FC = () => {
                     animate={{ x: translateX, scale, rotateY, zIndex, opacity }}
                     transition={{ duration: 0.6, ease: PREMIUM_EASE }}
                     style={{ transformStyle: 'preserve-3d' }}
-                    className={`absolute w-[320px] h-[480px] rounded-2xl p-5 flex flex-col justify-between border transition-colors shadow-2xl overflow-hidden group ${
+                    className={`absolute w-[340px] h-[500px] rounded-2xl p-6 flex flex-col justify-between border transition-all shadow-2xl overflow-hidden group ${
                       isActive 
-                        ? 'bg-gradient-to-b from-[#1c1824] via-[#14121b] to-[#0a0a0f] border-red-500/80 shadow-[0_0_50px_rgba(220,38,38,0.3)] ring-2 ring-red-600/40' 
+                        ? 'bg-gradient-to-b from-[#18141e] via-[#121018] to-[#0a0a0f] border-red-500/80 shadow-[0_0_50px_rgba(220,38,38,0.35)] ring-2 ring-red-600/40' 
                         : 'bg-gradient-to-b from-[#141414] to-[#0a0a0a] border-zinc-800/80 opacity-70'
                     }`}
                   >
-                    <div className="relative z-10 flex justify-between items-center text-[10px] font-mono text-zinc-400 border-b border-white/10 pb-3">
+                    <div className="relative z-10 flex justify-between items-center text-[10px] font-mono border-b border-white/10 pb-3">
                       <span className="text-red-400 font-bold">{proj.number}</span>
-                      <span className={`uppercase font-bold ${proj.isMaintenance ? 'text-zinc-500' : 'text-green-500'}`}>{proj.status}</span>
+                      <span className={`uppercase font-bold px-2 py-0.5 rounded text-[9px] ${
+                        proj.status === 'ACTIVE_DEPLOY' 
+                          ? 'bg-green-950/80 text-green-400 border border-green-800/50' 
+                          : 'bg-zinc-800/80 text-zinc-400 border border-zinc-700/50'
+                      }`}>
+                        {proj.status === 'ACTIVE_DEPLOY' ? 'ACTIVE DEPLOY' : 'UNDER MAINTENANCE'}
+                      </span>
                     </div>
 
-                    <div className="relative z-10 w-full h-[220px] rounded-xl overflow-hidden bg-black/40 border border-white/10">
-                      <img src={proj.image} alt={proj.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="relative z-10 w-full h-[200px] rounded-xl overflow-hidden border border-white/10 bg-black">
+                      {proj.status === 'ACTIVE_DEPLOY' && proj.image ? (
+                        <div className="w-full h-full relative overflow-hidden group">
+                          <img 
+                            src={proj.image} 
+                            alt={proj.displayTitle} 
+                            className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700" 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                        </div>
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-b from-[#141218] to-[#0a0a0d] flex flex-col items-center justify-center p-4 text-center relative overflow-hidden">
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#dc2626_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                          <motion.div 
+                            animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                            className="p-3 bg-red-950/30 border border-red-900/40 rounded-2xl shadow-[0_0_20px_rgba(220,38,38,0.2)] mb-2 z-10"
+                          >
+                            {proj.icon}
+                          </motion.div>
+                          <span className="text-[10px] font-mono uppercase text-red-400 tracking-widest font-bold z-10">SYSTEM MAINTENANCE</span>
+                          <span className="text-[9px] font-mono text-zinc-500 z-10 mt-0.5">CURRENTLY BEING REFINED</span>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="relative z-10 space-y-3 bg-black/60 backdrop-blur-md p-4 rounded-xl border border-white/10">
-                      <h4 className="font-display text-base text-white uppercase truncate">{proj.title}</h4>
-                      <div className="flex justify-between items-center text-xs pt-2 border-t border-white/10">
-                        <span className="text-red-400 font-mono font-bold">{proj.price || '3.45 ETH'}</span>
-                        <span className="text-zinc-400 font-mono">{proj.stats || '50k'}</span>
+                    <div className="relative z-10 space-y-2 bg-black/60 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                      <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest block">{proj.category}</span>
+                      <h4 className="font-display text-base text-white uppercase font-bold truncate">{proj.displayTitle}</h4>
+                      <p className="text-xs text-zinc-300 font-sans line-clamp-2 leading-relaxed">
+                        {proj.description}
+                      </p>
+                      
+                      <div className="pt-2 flex justify-between items-center text-[10px] font-mono text-red-400 border-t border-white/10">
+                        <span>ROLE: {proj.role.split('+')[0]}</span>
+                        <span className="flex items-center gap-1 text-white font-bold group-hover:text-red-400 transition-colors">
+                          VIEW DETAILS <ArrowRight className="w-3 h-3" />
+                        </span>
                       </div>
                     </div>
                   </motion.div>
@@ -1592,33 +1774,48 @@ export const PortfolioMaster: React.FC = () => {
             </div>
           </div>
 
-          {/* MOBILE DEDICATED VERTICAL PROJECT CARDS (< 768px) */}
+          {/* MOBILE VERTICAL PROJECT CARDS */}
           <div className="md:hidden space-y-6">
             {projects.map((proj) => (
               <motion.div 
                 key={proj.id}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveProjectModal(proj)}
-                className="border border-red-900/40 bg-[#121212] rounded-2xl overflow-hidden shadow-xl p-4 space-y-4 active:border-red-600 transition-colors"
+                className="border border-red-900/40 bg-[#121212] rounded-2xl overflow-hidden shadow-xl p-5 space-y-4 active:border-red-600 transition-colors"
               >
-                <div className="flex justify-between items-center border-b border-[#222] pb-2 text-[10px] font-mono">
+                <div className="flex justify-between items-center border-b border-[#222] pb-3 text-[10px] font-mono">
                   <span className="text-red-500 font-bold">{proj.number}</span>
-                  <span className={`px-2 py-0.5 rounded font-bold ${proj.isMaintenance ? 'bg-zinc-800 text-zinc-400' : 'bg-green-950 text-green-400'}`}>
-                    {proj.status}
+                  <span className={`px-2 py-0.5 rounded font-bold ${
+                    proj.status === 'ACTIVE_DEPLOY' ? 'bg-green-950 text-green-400 border border-green-800' : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                  }`}>
+                    {proj.status === 'ACTIVE_DEPLOY' ? 'ACTIVE DEPLOY' : 'UNDER MAINTENANCE'}
                   </span>
                 </div>
 
-                <div className="w-full h-48 rounded-xl overflow-hidden bg-black relative">
-                  <img src={proj.image} alt={proj.title} className="w-full h-full object-cover filter contrast-110" />
+                <div className="w-full h-48 rounded-xl overflow-hidden bg-black relative border border-[#222]">
+                  {proj.status === 'ACTIVE_DEPLOY' && proj.image ? (
+                    <img src={proj.image} alt={proj.displayTitle} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-[#121018] flex flex-col items-center justify-center p-4 text-center">
+                      <div className="p-3 bg-red-950/30 border border-red-900/40 rounded-2xl mb-2">
+                        {proj.icon}
+                      </div>
+                      <span className="text-[10px] font-mono text-red-400 font-bold uppercase tracking-widest">SYSTEM BEING REFINED</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase">{proj.category}</span>
-                  <h3 className="font-display text-xl text-white uppercase tracking-tight">{proj.title}</h3>
-                  <p className="text-xs text-zinc-400 font-sans leading-relaxed">{proj.description}</p>
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{proj.category}</span>
+                  <h3 className="font-display text-xl text-white uppercase tracking-tight font-bold">{proj.displayTitle}</h3>
+                  <p className="text-xs text-zinc-300 font-sans leading-relaxed">{proj.description}</p>
                 </div>
 
-                <button className="w-full h-11 bg-red-600/90 text-white font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 font-mono">
+                <div className="pt-2 border-t border-[#222] flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                  <span>ROLE: {proj.role}</span>
+                </div>
+
+                <button className="w-full h-11 bg-red-600/90 text-white font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 font-mono shadow-[0_0_15px_rgba(220,38,38,0.3)]">
                   <span>VIEW DETAILS</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -1627,9 +1824,7 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </motion.section>
 
-        {/* =================================================----------------- */}
-        {/* COPILOT SECTION — NATIVE AI ASSISTANT CHAT                          */}
-        {/* =================================================----------------- */}
+        {/* COPILOT SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1641,13 +1836,12 @@ export const PortfolioMaster: React.FC = () => {
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="text-center">
               <span className="text-xs font-mono tracking-widest uppercase text-red-500 block mb-1">// AI COPILOT</span>
-              <h2 className="font-display text-3xl md:text-5xl text-white uppercase">ASK ANYTHING</h2>
+              <h2 className="font-display text-3xl md:text-5xl text-white uppercase font-bold">ASK ANYTHING</h2>
               <p className="text-xs text-zinc-400 mt-1 font-sans">
                 Ask about my engineering skills, projects, tools, or development approach.
               </p>
             </div>
 
-            {/* Quick Prompt Chips */}
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
               {[
                 "What can you build?",
@@ -1719,9 +1913,7 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </motion.section>
 
-        {/* =================================================----------------- */}
-        {/* CONTACT SECTION — CLEAN, TOUCH-FRIENDLY TRANSMISSION FORM         */}
-        {/* =================================================----------------- */}
+        {/* CONTACT SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1735,7 +1927,7 @@ export const PortfolioMaster: React.FC = () => {
             <div className="lg:col-span-5 space-y-6">
               <div>
                 <span className="text-xs font-mono tracking-widest uppercase text-red-500 block mb-1">// CONTACT</span>
-                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight leading-none">
+                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight leading-none font-black">
                   LET'S BUILD <br /><span className="italic text-red-600">SOMETHING.</span>
                 </h2>
                 <p className="text-xs text-zinc-400 font-sans mt-3">
@@ -1743,7 +1935,6 @@ export const PortfolioMaster: React.FC = () => {
                 </p>
               </div>
 
-              {/* Direct Social Channels */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <motion.a 
                   whileHover={{ x: 3, borderColor: '#dc2626' }}
@@ -1775,7 +1966,6 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </div>
 
-            {/* TRANSMISSION FORM */}
             <div className="lg:col-span-7">
               <form onSubmit={handleContactSubmit} className="border border-[#222] bg-[#121212] p-6 md:p-8 rounded-2xl space-y-5 shadow-2xl">
                 <div className="flex justify-between items-center border-b border-[#222] pb-3 text-xs font-mono">
@@ -1803,54 +1993,51 @@ export const PortfolioMaster: React.FC = () => {
                       required
                       value={formData.sender_email}
                       onChange={(e) => setFormData({ ...formData, sender_email: e.target.value })}
-                      placeholder="e.g. alex@enterprise.com" 
+                      placeholder="e.g. alex@company.com" 
                       className="w-full bg-[#0a0a0a] border border-[#333] px-4 py-3 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1.5">PROJECT SCOPE & GOALS *</label>
+                    <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1.5">PROJECT SCOPE & REQUIREMENTS *</label>
                     <textarea 
                       required
                       rows={4}
                       value={formData.project_scope}
                       onChange={(e) => setFormData({ ...formData, project_scope: e.target.value })}
-                      placeholder="Describe your project, timeline, or requirements..." 
-                      className="w-full bg-[#0a0a0a] border border-[#333] px-4 py-3 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors resize-none"
-                    ></textarea>
+                      placeholder="Describe what you want to build..." 
+                      className="w-full bg-[#0a0a0a] border border-[#333] p-4 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors"
+                    />
                   </div>
                 </div>
 
                 {status === 'error' && (
-                  <div className="flex items-center gap-2 text-red-500 text-xs font-mono bg-red-950/30 border border-red-900/50 p-3 rounded-xl">
+                  <div className="p-3 bg-red-950/50 border border-red-800 rounded-xl flex items-center gap-2 text-xs text-red-400 font-mono">
                     <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>{errorMessage || 'Transmission failed. Try direct email.'}</span>
+                    <span>{errorMessage || 'Transmission failed.'}</span>
                   </div>
                 )}
 
                 {status === 'success' && (
-                  <div className="flex items-center gap-2 text-green-400 text-xs font-mono bg-green-950/30 border border-green-900/50 p-3 rounded-xl">
+                  <div className="p-3 bg-green-950/50 border border-green-800 rounded-xl flex items-center gap-2 text-xs text-green-400 font-mono">
                     <CheckCircle2 className="w-4 h-4 shrink-0" />
-                    <span>TRANSMISSION SENT SUCCESSFULLY. I WILL RESPOND SHORTLY.</span>
+                    <span>Transmission sent successfully. I will respond shortly.</span>
                   </div>
                 )}
 
                 <motion.button 
                   whileTap={{ scale: 0.98 }}
-                  type="submit" 
                   disabled={status === 'loading'}
-                  className="w-full min-h-[52px] bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl active:bg-red-700 font-mono flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(220,38,38,0.25)]"
+                  type="submit" 
+                  className="w-full py-4 bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-red-700 active:bg-red-800 shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all font-mono flex items-center justify-center gap-2"
                 >
                   {status === 'loading' ? (
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                      <span>TRANSMITTING...</span>
-                    </div>
+                    <span>TRANSMITTING DATA...</span>
                   ) : (
-                    <div className="flex items-center gap-2">
+                    <>
+                      <span>TRANSMIT MESSAGE</span>
                       <Send className="w-4 h-4" />
-                      <span>DISPATCH TRANSMISSION</span>
-                    </div>
+                    </>
                   )}
                 </motion.button>
               </form>
@@ -1862,13 +2049,11 @@ export const PortfolioMaster: React.FC = () => {
       </motion.main>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#222] bg-[#080808] py-8 px-5 md:px-16 text-center text-xs text-zinc-500 font-mono">
-        <p>© 2026 JJ // AI ENGINEER & FULL-STACK ARCHITECT. ALL RIGHTS RESERVED.</p>
+      <footer className="border-t border-[#222] py-8 px-6 text-center text-xs text-zinc-600 font-mono uppercase tracking-widest">
+        <p>© {new Date().getFullYear()} JJ DEV // ALL RIGHTS RESERVED.</p>
       </footer>
 
-      {/* -------------------------------------------------------------------- */}
-      {/* TECH WALL MODAL                                                      */}
-      {/* -------------------------------------------------------------------- */}
+      {/* TECHNOLOGY MODAL */}
       <AnimatePresence>
         {activeTechModal && (
           <motion.div 
@@ -1876,40 +2061,48 @@ export const PortfolioMaster: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActiveTechModal(null)}
-            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-5"
+            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
           >
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#121212] border border-red-900/50 w-full max-w-md p-6 rounded-2xl space-y-4 relative shadow-2xl font-mono"
+              className="border border-red-600/60 bg-[#121212] p-6 rounded-2xl max-w-md w-full space-y-4 shadow-2xl relative"
             >
-              <button 
-                onClick={() => setActiveTechModal(null)}
-                className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-[#1a1a1a] rounded-full"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              <div className="space-y-1">
-                <span className="text-xs text-red-500 uppercase font-bold">{activeTechModal.category}</span>
-                <h3 className="text-2xl font-bold text-white uppercase">{activeTechModal.name}</h3>
+              <div className="flex justify-between items-center border-b border-[#222] pb-3">
+                <span className="text-xs font-mono text-red-500 font-bold uppercase">// TECH SPECIFICATION</span>
+                <button onClick={() => setActiveTechModal(null)} className="text-zinc-500 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              <div className="space-y-3 text-xs text-zinc-300 font-sans border-t border-[#222] pt-3">
-                <p><strong className="text-white font-mono uppercase">Overview:</strong> {activeTechModal.desc}</p>
-                <p><strong className="text-white font-mono uppercase">Projects Used:</strong> {activeTechModal.projectsUsed}</p>
-                <p><strong className="text-white font-mono uppercase">Selection Reason:</strong> {activeTechModal.reason}</p>
+              <div className="flex items-center gap-3">
+                {activeTechModal.icon}
+                <div>
+                  <span className="text-[10px] font-mono text-red-400 uppercase">{activeTechModal.category}</span>
+                  <h3 className="text-2xl font-display font-bold text-white uppercase">{activeTechModal.name}</h3>
+                </div>
+              </div>
+
+              <p className="text-xs text-zinc-300 font-sans leading-relaxed">{activeTechModal.desc}</p>
+
+              <div className="space-y-2 pt-2 border-t border-[#222] text-xs font-mono">
+                <div>
+                  <span className="text-red-400 block uppercase font-bold text-[10px]">PROJECTS APPLIED:</span>
+                  <span className="text-zinc-300">{activeTechModal.projectsUsed}</span>
+                </div>
+                <div>
+                  <span className="text-red-400 block uppercase font-bold text-[10px]">WHY THIS TOOL:</span>
+                  <span className="text-zinc-300 font-sans">{activeTechModal.reason}</span>
+                </div>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* -------------------------------------------------------------------- */}
-      {/* PROJECT MODAL                                                        */}
-      {/* -------------------------------------------------------------------- */}
+      {/* PROJECT DETAILS MODAL */}
       <AnimatePresence>
         {activeProjectModal && (
           <motion.div 
@@ -1917,63 +2110,86 @@ export const PortfolioMaster: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActiveProjectModal(null)}
-            className="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md flex items-center justify-center p-5 overflow-y-auto"
+            className="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
           >
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#121212] border border-red-900/50 w-full max-w-xl p-6 md:p-8 rounded-2xl space-y-6 relative shadow-2xl my-auto"
+              className="border border-red-600/60 bg-[#121212] p-6 md:p-8 rounded-2xl max-w-2xl w-full space-y-6 shadow-2xl relative my-8"
             >
-              <button 
-                onClick={() => setActiveProjectModal(null)}
-                className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-[#1a1a1a] rounded-full z-20"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono text-red-500 font-bold">
-                  <span>{activeProjectModal.number}</span>
-                  <span>•</span>
-                  <span>{activeProjectModal.category}</span>
+              <div className="flex justify-between items-center border-b border-[#222] pb-4">
+                <div>
+                  <span className="text-xs font-mono text-red-500 font-bold uppercase">{activeProjectModal.number} // {activeProjectModal.category}</span>
+                  <h3 className="text-2xl md:text-3xl font-display font-black text-white uppercase tracking-tight">{activeProjectModal.displayTitle}</h3>
                 </div>
-                <h3 className="font-display text-2xl md:text-3xl text-white uppercase">{activeProjectModal.title}</h3>
+                <button 
+                  onClick={() => setActiveProjectModal(null)} 
+                  className="p-2 bg-[#1a1a1a] border border-[#333] rounded-full text-zinc-400 hover:text-white transition-colors"
+                  aria-label="Close Project Modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              <div className="w-full h-56 rounded-xl overflow-hidden bg-black border border-[#222]">
-                <img src={activeProjectModal.image} alt={activeProjectModal.title} className="w-full h-full object-cover" />
+              {activeProjectModal.image && (
+                <div className="w-full h-56 rounded-xl overflow-hidden border border-[#222] bg-black relative">
+                  <img src={activeProjectModal.image} alt={activeProjectModal.displayTitle} className="w-full h-full object-cover" />
+                </div>
+              )}
+
+              <div className="space-y-4 text-xs font-sans text-zinc-300 leading-relaxed">
+                <div>
+                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-1">// OVERVIEW</h4>
+                  <p>{activeProjectModal.longDescription}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-1">// PROBLEM SOLVED</h4>
+                  <p>{activeProjectModal.problem}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-2">// KEY ARCHITECTURE & FEATURES</h4>
+                  <ul className="space-y-1.5 list-disc list-inside text-zinc-300">
+                    {activeProjectModal.built.map((feature, idx) => (
+                      <li key={idx}>{feature}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
-              <p className="text-xs text-zinc-300 font-sans leading-relaxed">
-                {activeProjectModal.description}
-              </p>
+              <div className="space-y-3 pt-4 border-t border-[#222]">
+                <h4 className="font-mono text-xs font-bold text-white uppercase">// TECH STACK</h4>
+                <div className="flex flex-wrap gap-2">
+                  {activeProjectModal.techStack.map((tech) => (
+                    <span key={tech} className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] text-[11px] font-mono text-zinc-300 rounded-md">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-              <div className="flex gap-3 pt-2">
-                {activeProjectModal.url && (
+              {activeProjectModal.url && (
+                <div className="pt-2">
                   <a 
                     href={activeProjectModal.url} 
                     target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex-1 min-h-[48px] bg-red-600 text-white font-bold text-xs font-mono uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 active:bg-red-700"
+                    rel="noopener noreferrer"
+                    className="w-full h-12 bg-red-600 text-white font-bold text-xs font-mono uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 hover:bg-red-700 active:bg-red-800 transition-colors shadow-[0_0_20px_rgba(220,38,38,0.3)]"
                   >
-                    <span>VISIT LIVE DEMO</span>
+                    <span>LAUNCH DEPLOYED PLATFORM</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
-                )}
-                <button 
-                  onClick={() => setActiveProjectModal(null)} 
-                  className="min-h-[48px] px-6 border border-[#333] bg-[#1a1a1a] text-white font-bold text-xs font-mono uppercase tracking-widest rounded-xl"
-                >
-                  CLOSE
-                </button>
-              </div>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 };
+
+export default PortfolioMaster;
