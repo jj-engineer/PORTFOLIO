@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform, type Variants } from 'framer-motion';
 import { 
-  Terminal, Send, CheckCircle2, AlertCircle, Bot, User, Cpu, GitCommit, Power, 
+  Terminal, Send, CheckCircle2, AlertCircle, Bot, GitCommit,
   ExternalLink, Menu, X, ChevronRight, Mail, 
   Globe, Layers3, FileUser, GraduationCap, ArrowRight, Activity, Check, ShieldCheck,
-  ShoppingBag, Server, Monitor, Brain, Zap, ArrowUpRight, Sparkles, Code, Database, Layout, Scan
+  ShoppingBag, Server, Monitor, Brain, Zap, ArrowUpRight,
 } from 'lucide-react';
 import {
   SiReact,
@@ -1001,56 +1001,6 @@ export const PortfolioMaster: React.FC = () => {
     }
   ];
 
-  const modalBuildSteps = [
-    {
-      num: "01",
-      title: "DISCOVER",
-      desc: "Understand your business, users, goals, and primary workflow pain points.",
-      impl: "Stakeholder alignment, technical requirements document, feature prioritization matrix."
-    },
-    {
-      num: "02",
-      title: "PLAN",
-      desc: "Define product features, user flows, database structures, and overall system architecture.",
-      impl: "ERD database diagramming, REST API schema definition, security policy modeling."
-    },
-    {
-      num: "03",
-      title: "DESIGN",
-      desc: "Create the interface and interaction structure before full-scale software development.",
-      impl: "Tailwind design tokens, modular React component hierarchy, desktop/mobile wireframes."
-    },
-    {
-      num: "04",
-      title: "BUILD",
-      desc: "Develop the frontend views, backend logic, database tables, authentication, and core business rules.",
-      impl: "Typed React components, FastAPI route handlers, Supabase row-level security constraints."
-    },
-    {
-      num: "05",
-      title: "INTEGRATE",
-      desc: "Connect payments, AI capabilities, external APIs, messaging notifications, or required integrations.",
-      impl: "Third-party payment gateways, OpenAI/Anthropic/Gemini APIs, automated webhook handlers."
-    },
-    {
-      num: "06",
-      title: "TEST",
-      desc: "Test system functionality, mobile responsiveness, operational security, and real-world user flows.",
-      impl: "End-to-end integration tests, mobile viewport validation, API latency stress testing."
-    },
-    {
-      num: "07",
-      title: "DEPLOY",
-      desc: "Launch the system online with secure domains, edge servers, and production environment settings.",
-      impl: "Vercel edge hosting, Railway container instances, SSL certificates, environment variables."
-    },
-    {
-      num: "08",
-      title: "IMPROVE",
-      desc: "Monitor live operations, fix emerging issues, optimize loading speeds, and scale new features over time.",
-      impl: "Error telemetry, performance query optimization, continuous feature iteration pipelines."
-    }
-  ];
 
   const techWallData = [
     { 
