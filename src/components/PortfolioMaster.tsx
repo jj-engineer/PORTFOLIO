@@ -3,7 +3,8 @@ import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTrans
 import { 
   Terminal, Send, CheckCircle2, AlertCircle, Bot, User, Cpu, GitCommit, Power, 
   ExternalLink, Menu, X, ChevronRight, Mail, 
-  Globe, Layers3, FileUser, GraduationCap, ArrowRight, Activity, Check, ShieldCheck
+  Globe, Layers3, FileUser, GraduationCap, ArrowRight, Activity, Check, ShieldCheck,
+  ShoppingBag, Server, Monitor, Brain, Zap, ArrowUpRight, Sparkles, Code, Database, Layout, Scan
 } from 'lucide-react';
 import {
   SiReact,
@@ -20,6 +21,10 @@ import {
   SiKalilinux
 } from 'react-icons/si';
 import * as THREE from 'three';
+
+/* -------------------------------------------------------------------------- */
+/*                               PROJECT DATA                                 */
+/* -------------------------------------------------------------------------- */
 
 interface Project {
   id: string;
@@ -144,6 +149,236 @@ const projects: Project[] = [
   }
 ];
 
+/* -------------------------------------------------------------------------- */
+/*                         CAPABILITIES / SERVICES DATA                       */
+/* -------------------------------------------------------------------------- */
+
+interface CapabilityService {
+  id: string;
+  number: string;
+  title: string;
+  shortDesc: string;
+  tags: string[];
+  icon: React.ReactNode;
+  problem: string;
+  solution: string;
+  deliverables: string[];
+  techStack: { name: string; category: string }[];
+  clientValue: string;
+  engineeringImpl: string;
+  useCases: string[];
+}
+
+const capabilityServices: CapabilityService[] = [
+  {
+    id: 'websites',
+    number: '01',
+    title: 'Professional Websites',
+    shortDesc: 'Modern, fast, responsive websites built around your brand, customers, and business goals.',
+    tags: ['BUSINESS', 'BRANDING', 'RESPONSIVE', 'FULL-STACK'],
+    icon: <Globe className="w-6 h-6 text-red-500" />,
+    problem: 'Your business may have a great product or service, but without a fast, professional online presence, potential customers struggle to understand what you offer, trust your brand, or contact you.',
+    solution: 'I design and build high-performance, modern websites that present your business clearly, build instant trust, and give clients a smooth way to discover, inquire, and interact with you on any device.',
+    deliverables: [
+      'Modern, custom user interface & brand styling',
+      'Mobile + tablet + desktop fully responsive design',
+      'Backend API & database integration when required',
+      'Admin functionality & content management options',
+      'Contact & inquiry forms with direct notifications',
+      'SEO optimization & edge production deployment'
+    ],
+    techStack: [
+      { name: 'React', category: 'Frontend' },
+      { name: 'TypeScript', category: 'Language' },
+      { name: 'Tailwind CSS', category: 'Styling' },
+      { name: 'Supabase', category: 'Database & Auth' },
+      { name: 'Vercel', category: 'Global Hosting' }
+    ],
+    clientValue: 'More professional online presence → Easier customer discovery → Stronger brand trust → Higher lead conversion.',
+    engineeringImpl: 'Built with React component architecture, Tailwind styling tokens, serverless backend handlers, and automated CI/CD deployment.',
+    useCases: [
+      'Company & Corporate Websites',
+      'Professional Business Profiles',
+      'Personal Brand & Portfolio Sites',
+      'High-Converting Landing Pages',
+      'Service Provider Websites',
+      'Custom Portals with Backend Logic'
+    ]
+  },
+  {
+    id: 'ecommerce',
+    number: '02',
+    title: 'E-Commerce & Payments',
+    shortDesc: 'Sell products online with a complete shopping experience, order management, and payment integration.',
+    tags: ['ONLINE STORE', 'PAYMENTS', 'ORDERS', 'AUTOMATION'],
+    icon: <ShoppingBag className="w-6 h-6 text-red-500" />,
+    problem: 'Selling through manual social media messages and spreadsheets is slow, prone to missed orders, difficult to manage as inventory grows, and frustrating for buyers.',
+    solution: 'A complete custom online store that presents your catalog clearly, manages real-time carts, automates checkout flows, and handles payment processing structured for your target market.',
+    deliverables: [
+      'Interactive product catalog with category filters & search',
+      'Shopping cart & seamless multi-step checkout workflow',
+      'Customer accounts & order history portal',
+      'Admin dashboard for products, stock, and status updates',
+      'ABA / KHQR / payment provider integration (subject to API availability)',
+      'Automated email/message order receipts and alerts'
+    ],
+    techStack: [
+      { name: 'React', category: 'Frontend' },
+      { name: 'TypeScript', category: 'Language' },
+      { name: 'Tailwind CSS', category: 'Styling' },
+      { name: 'Supabase', category: 'Database & Security' },
+      { name: 'Payment APIs', category: 'Checkout' },
+      { name: 'Vercel', category: 'Cloud' }
+    ],
+    clientValue: 'More products visible online → Faster checkout process → Automated order tracking → Centralized inventory control.',
+    engineeringImpl: 'Relational database schema for orders and items, atomic checkout state management, encrypted tokenized transaction callbacks.',
+    useCases: [
+      'Retail & Fashion Online Stores',
+      'Digital Product Sales Platforms',
+      'Subscription & Service Checkout',
+      'Local Business Online Ordering',
+      'Custom Shopping Web Apps'
+    ]
+  },
+  {
+    id: 'business-systems',
+    number: '03',
+    title: 'Custom Business Systems',
+    shortDesc: 'If your business relies on manual work, spreadsheets, messages, or repetitive processes, I can turn that workflow into a custom system.',
+    tags: ['CUSTOM SYSTEM', 'WORKFLOW', 'MANAGEMENT', 'AUTOMATION'],
+    icon: <Server className="w-6 h-6 text-red-500" />,
+    problem: 'Businesses waste dozens of hours each week handling staff schedules, customer bookings, inventory counts, and invoices across disconnected spreadsheets and chat groups.',
+    solution: 'I translate your messy paper or spreadsheet operations into a single, secure digital system built around how your business actually runs, eliminating repetitive administrative stress.',
+    deliverables: [
+      'Centralized management dashboard with real-time stats',
+      'Role-based permissions (Admin, Manager, Staff)',
+      'Customer, staff, and booking tracking databases',
+      'Automated workflow triggers and task assignments',
+      'Document management and PDF export generators',
+      'Secure authentication and activity audit logging'
+    ],
+    techStack: [
+      { name: 'React', category: 'Frontend' },
+      { name: 'TypeScript', category: 'Language' },
+      { name: 'FastAPI', category: 'Backend Engine' },
+      { name: 'Supabase', category: 'PostgreSQL DB' },
+      { name: 'Docker', category: 'Containerization' },
+      { name: 'Railway', category: 'Backend Hosting' }
+    ],
+    clientValue: 'Less manual administrative work → Fewer operational errors → Centralized business data → Effortless team management.',
+    engineeringImpl: 'RESTful API architecture using FastAPI, relational PostgreSQL constraints, JWT-based role authorization, and scalable server instances.',
+    useCases: [
+      'Employee & Attendance Systems',
+      'Client Management & Booking Portals',
+      'Internal Operations Dashboards',
+      'Document & Billing Management Systems',
+      'Custom Industry Administrative Tools'
+    ]
+  },
+  {
+    id: 'pos',
+    number: '04',
+    title: 'POS Systems',
+    shortDesc: 'Point-of-sale systems designed to make selling, inventory, reporting, and daily operations easier.',
+    tags: ['POS', 'INVENTORY', 'SALES', 'REPORTING'],
+    icon: <Monitor className="w-6 h-6 text-red-500" />,
+    problem: 'Retail stores and food outlets suffer from long customer lines, untracked inventory leaks, inaccurate end-of-day counts, and complex legacy software.',
+    solution: 'A fast, intuitive Point-of-Sale interface engineered for high-speed counter operations, real-time stock deduction, quick receipts, and clear daily management reporting.',
+    deliverables: [
+      'High-speed touch-friendly sales counter interface',
+      'Product catalog, variations, and barcode lookup',
+      'Real-time inventory deduction and stock level warnings',
+      'Customer records, loyalty tracking, and receipt generation',
+      'Daily, weekly, and monthly revenue analytics dashboards',
+      'Multi-staff login with manager permissions and cash audit'
+    ],
+    techStack: [
+      { name: 'React', category: 'Frontend' },
+      { name: 'TypeScript', category: 'Language' },
+      { name: 'FastAPI', category: 'Backend API' },
+      { name: 'Supabase', category: 'Database' },
+      { name: 'Railway', category: 'Cloud Server' }
+    ],
+    clientValue: 'Faster checkout queues → Accurate inventory visibility → Instant sales analytics → Zero end-of-day math headaches.',
+    engineeringImpl: 'Optimized local UI cache for zero latency checkout, transactional database commits for stock consistency, aggregated reporting queries.',
+    useCases: [
+      'Restaurants & Coffee Shops',
+      'Retail Stores & Boutiques',
+      'Supermarkets & Convenience Stores',
+      'Service Counters & Salons',
+      'Multi-Branch Sales Operations'
+    ]
+  },
+  {
+    id: 'ai-analytics',
+    number: '05',
+    title: 'AI Analytics & Intelligence',
+    shortDesc: 'Turn your business data and documents into useful insights, analysis, recommendations, and intelligent workflows.',
+    tags: ['AI', 'ANALYTICS', 'INSIGHTS', 'DECISION SUPPORT'],
+    icon: <Brain className="w-6 h-6 text-red-500" />,
+    problem: 'Businesses sit on piles of customer records, sales reports, and operational PDFs, but lack the time or tools to extract meaningful insights to guide decisions.',
+    solution: 'I embed specialized AI models and intelligence pipelines directly into your software, allowing you to converse with your data, summarize complex documents, and spot operational trends automatically.',
+    deliverables: [
+      'AI-powered business analytics & insight generators',
+      'Document analysis pipelines (PDFs, reports, contracts)',
+      'Custom internal AI assistant tuned to your operations',
+      'Automated weekly intelligence and trend summaries',
+      'Smart customer query routing and automated categorization',
+      'Interactive executive decision support dashboards'
+    ],
+    techStack: [
+      { name: 'React', category: 'Frontend' },
+      { name: 'Python', category: 'AI Core' },
+      { name: 'FastAPI', category: 'Microservices' },
+      { name: 'Supabase', category: 'Vector Store' },
+      { name: 'LLM / AI APIs', category: 'Intelligence' }
+    ],
+    clientValue: 'More useful business insights → Faster data analysis → Smarter operational decisions → Reduced reporting overhead.',
+    engineeringImpl: 'Vector embeddings retrieval (RAG pipeline), structured prompt engineering, asynchronous microservice processing in Python FastAPI.',
+    useCases: [
+      'Business Performance Analytics',
+      'Automated Document Processing',
+      'Internal Customer Support AI Agents',
+      'Executive Intelligence Dashboards',
+      'AI Recommendation Engines'
+    ]
+  },
+  {
+    id: 'automation',
+    number: '06',
+    title: 'Automation & Remote Systems',
+    shortDesc: 'Automate repetitive work and connect your tools so your business can operate with less manual effort.',
+    tags: ['AUTOMATION', 'REMOTE', 'INTEGRATION', 'WORKFLOW'],
+    icon: <Zap className="w-6 h-6 text-red-500" />,
+    problem: 'Staff members spend hours copying numbers from one tool to another, sending manual reminder messages, and triggering daily routines manually.',
+    solution: 'I build automated background pipelines that bridge your existing tools, automatically transfer data, send instant alerts, and run scheduled tasks while you sleep.',
+    deliverables: [
+      'Custom API integrations between distinct software systems',
+      'Automated Telegram / Email / WhatsApp notifications',
+      'Scheduled background syncs and nightly batch processing',
+      'Remote system status and monitoring control panels',
+      'AI-driven workflow triggers and automated data cleanup',
+      'Error logging and automatic failure recovery hooks'
+    ],
+    techStack: [
+      { name: 'Python', category: 'Core Scripting' },
+      { name: 'FastAPI', category: 'Webhook Server' },
+      { name: 'APIs & Webhooks', category: 'Integration' },
+      { name: 'Docker', category: 'Execution Environment' },
+      { name: 'Railway', category: 'Background Hosting' }
+    ],
+    clientValue: 'Less repetitive manual labor → Elimination of human copy-paste errors → Faster execution → Focus on core business growth.',
+    engineeringImpl: 'Asynchronous event listeners, cron job schedules, webhook handlers, fault-tolerant retry queues with alert notifications.',
+    useCases: [
+      'Cross-Platform Data Synchronization',
+      'Automated Customer Alerts & Reminders',
+      'Scheduled Data Backups & Exports',
+      'Remote Operations Monitoring',
+      'Automated Invoice & Email Workflows'
+    ]
+  }
+];
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -184,6 +419,135 @@ const staggerItemVariant: Variants = {
     filter: 'blur(0px)',
     transition: { duration: 0.5, ease: PREMIUM_EASE } 
   }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                       BOOT SEQUENCE THREE.JS SYSTEM CORE                  */
+/* -------------------------------------------------------------------------- */
+
+const BootSystemCoreCanvas: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
+  const mountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const currentMount = mountRef.current;
+    if (!currentMount) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, currentMount.clientWidth / currentMount.clientHeight, 0.1, 1000);
+    camera.position.set(0, 0, 6.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true, powerPreference: "high-performance" });
+    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 2));
+    currentMount.appendChild(renderer.domElement);
+
+    const coreGroup = new THREE.Group();
+    scene.add(coreGroup);
+
+    // Glowing Red Central Core
+    const coreGeometry = new THREE.IcosahedronGeometry(1.2, 2);
+    const coreMaterial = new THREE.MeshBasicMaterial({
+      color: 0xdc2626,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.8
+    });
+    const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
+    coreGroup.add(coreMesh);
+
+    // Inner Glowing Core Solid
+    const innerGeo = new THREE.IcosahedronGeometry(0.8, 1);
+    const innerMat = new THREE.MeshBasicMaterial({ color: 0xdc2626 });
+    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+    coreGroup.add(innerMesh);
+
+    // Thin Circular Orbital Rings
+    const ring1Geo = new THREE.TorusGeometry(2.0, 0.015, 16, 100);
+    const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xdc2626, transparent: true, opacity: 0.6 });
+    const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+    ring1.rotation.x = Math.PI / 3;
+    coreGroup.add(ring1);
+
+    const ring2Geo = new THREE.TorusGeometry(2.5, 0.01, 16, 100);
+    const ring2Mat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 });
+    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    ring2.rotation.y = Math.PI / 4;
+    coreGroup.add(ring2);
+
+    // Particles
+    const particlesCount = isMobile ? 25 : 55;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+      particlePositions[i] = (Math.random() - 0.5) * 6;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 6;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 6;
+    }
+
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xdc2626,
+      size: 0.05,
+      transparent: true,
+      opacity: 0.7
+    });
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    const handleResize = () => {
+      if (!currentMount) return;
+      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    let animationFrameId: number;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      coreGroup.rotation.y = elapsedTime * 0.4;
+      coreGroup.rotation.x = elapsedTime * 0.25;
+
+      ring1.rotation.z = elapsedTime * 0.5;
+      ring2.rotation.z = -elapsedTime * 0.3;
+
+      const pulse = 1 + Math.sin(elapsedTime * 3) * 0.08;
+      coreMesh.scale.set(pulse, pulse, pulse);
+
+      particles.rotation.y = elapsedTime * 0.05;
+
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+      if (currentMount && renderer.domElement) {
+        currentMount.removeChild(renderer.domElement);
+      }
+      coreGeometry.dispose();
+      coreMaterial.dispose();
+      innerGeo.dispose();
+      innerMat.dispose();
+      ring1Geo.dispose();
+      ring1Mat.dispose();
+      ring2Geo.dispose();
+      ring2Mat.dispose();
+      particleGeometry.dispose();
+      particleMaterial.dispose();
+      renderer.dispose();
+    };
+  }, [isMobile]);
+
+  return <div ref={mountRef} className="w-full h-full" />;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -391,15 +755,15 @@ const SystemEngineeringModelCanvas: React.FC<{ isMobile?: boolean }> = ({ isMobi
   }, [isMobile]);
 
   return (
-    <div className={`relative w-full ${isMobile ? 'h-[280px]' : 'h-[380px] md:h-[460px]'} flex items-center justify-center bg-[#0e0e0e]/50 border border-red-900/30 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(220,38,38,0.15)] group`}>
+    <div className={`relative w-full ${isMobile ? 'h-[240px]' : 'h-[320px] md:h-[380px]'} flex items-center justify-center bg-[#0e0e0e]/50 border border-red-900/30 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(220,38,38,0.12)] group`}>
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#dc2626 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
       <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing z-10"></div>
       <div className="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/70 backdrop-blur-md px-3 py-2 border border-red-900/40 rounded-lg pointer-events-none">
         <div className="flex items-center gap-2 text-[10px] text-red-400 font-mono uppercase tracking-widest">
           <span className="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
-          <span>3D SYSTEM CORE</span>
+          <span>SYSTEM ARCHITECTURE ENGINE</span>
         </div>
-        {!isMobile && <span className="text-[10px] text-zinc-500 font-mono">[INTERACTIVE WEBGL MODEL]</span>}
+        {!isMobile && <span className="text-[10px] text-zinc-500 font-mono">[INTERACTIVE MODEL]</span>}
       </div>
     </div>
   );
@@ -421,9 +785,42 @@ export const PortfolioMaster: React.FC = () => {
     return () => window.removeEventListener('resize', handleCheckMobile);
   }, []);
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hoverProgress, setHoverProgress] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
+  // REFACTORED BOOT/LOADING STATE MACHINE
+  type BootState = 'booting' | 'ready' | 'authorizing' | 'entered';
+  const [bootState, setBootState] = useState<BootState>('booting');
+  const [visibleLogIndex, setVisibleLogIndex] = useState<number>(0);
+
+  const bootLogLines = [
+    "[01] INITIALIZING CORE SYSTEM............. OK",
+    "[02] LOADING AI ARCHITECTURE............. OK",
+    "[03] MOUNTING DIGITAL SYSTEMS............ OK",
+    "[04] ESTABLISHING SECURE CONNECTION...... OK",
+    "[05] LOADING PORTFOLIO ENVIRONMENT....... OK"
+  ];
+
+  // 3-SECOND AUTOMATIC TIMELINE
+  useEffect(() => {
+    if (bootState !== 'booting') return;
+
+    const logTimers = [
+      setTimeout(() => setVisibleLogIndex(1), 1000),
+      setTimeout(() => setVisibleLogIndex(2), 1400),
+      setTimeout(() => setVisibleLogIndex(3), 1800),
+      setTimeout(() => setVisibleLogIndex(4), 2200),
+      setTimeout(() => setVisibleLogIndex(5), 2600),
+      setTimeout(() => setBootState('ready'), 3000)
+    ];
+
+    return () => logTimers.forEach(t => clearTimeout(t));
+  }, [bootState]);
+
+  const handleAuthorizeClick = () => {
+    if (bootState !== 'ready') return;
+    setBootState('authorizing');
+    setTimeout(() => {
+      setBootState('entered');
+    }, 800);
+  };
 
   // Roadmap Hover-Follow Motion Values
   const cursorX = useMotionValue(0);
@@ -447,7 +844,7 @@ export const PortfolioMaster: React.FC = () => {
 
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'SYS_AGENT v2.5 initialized. Ask me anything about my AI engineering stack, capabilities, or development roadmap.' }
+    { role: 'assistant', content: 'JJ_AGENT v2.5 initialized. Ask me anything about my AI engineering stack, capabilities, or development roadmap.' }
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -462,12 +859,36 @@ export const PortfolioMaster: React.FC = () => {
 
   const [activeProjectModal, setActiveProjectModal] = useState<Project | null>(null);
 
+  // SELECTED CAPABILITY DETAIL MODAL STATE
+  const [activeCapabilityModal, setActiveCapabilityModal] = useState<CapabilityService | null>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isCarouselHovered, setIsCarouselHovered] = useState(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showRoadmapMobile, setShowRoadmapMobile] = useState(false);
   const [hoveredRoadmapNode, setHoveredRoadmapNode] = useState<number | null>(null);
+
+  // Esc Key support & Body Scroll Locking for Modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveCapabilityModal(null);
+        setActiveProjectModal(null);
+        setActiveTechModal(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (activeCapabilityModal || activeProjectModal || activeTechModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [activeCapabilityModal, activeProjectModal, activeTechModal]);
 
   useEffect(() => {
     if (isCarouselHovered || isMobileDevice) return;
@@ -476,37 +897,6 @@ export const PortfolioMaster: React.FC = () => {
     }, 3500);
     return () => clearInterval(interval);
   }, [isCarouselHovered, isMobileDevice]);
-
-  useEffect(() => {
-    let interval: any;
-    if (isHovering && !isLoaded) {
-      interval = setInterval(() => {
-        setHoverProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setIsLoaded(true);
-            return 100;
-          }
-          return prev + 5;
-        });
-      }, 50);
-    } else if (!isHovering && !isLoaded) {
-      interval = setInterval(() => {
-        setHoverProgress((prev) => {
-          if (prev <= 0) {
-            clearInterval(interval);
-            return 0;
-          }
-          return prev - 8;
-        });
-      }, 30);
-    }
-    return () => clearInterval(interval);
-  }, [isHovering, isLoaded]);
-
-  const handleMobileBoot = () => {
-    setIsLoaded(true);
-  };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -539,13 +929,13 @@ export const PortfolioMaster: React.FC = () => {
     setTimeout(() => {
       let responseContent = `Processed query "${query}" successfully with zero token loss and 38ms latency.`;
       if (query.toLowerCase().includes('build') || query.toLowerCase().includes('what can you')) {
-        responseContent = "I design and build intelligent digital products—from AI-powered applications, document tools, and dashboards to scalable full-stack web platforms.";
+        responseContent = "I design and build complete digital products—websites, business management systems, e-commerce stores, POS terminals, AI tools, and custom backend automation pipelines.";
       } else if (query.toLowerCase().includes('stack') || query.toLowerCase().includes('ai')) {
-        responseContent = "My stack comprises React, TypeScript, Tailwind CSS, Python, FastAPI, Supabase, LLMs (Gemini, Claude, GPT), and continuous deployment pipelines.";
+        responseContent = "My production stack includes React, TypeScript, Tailwind CSS, Python, FastAPI, Supabase (PostgreSQL), Docker, Railway, Vercel, and specialized LLM APIs.";
       } else if (query.toLowerCase().includes('projects') || query.toLowerCase().includes('tell me about')) {
-        responseContent = "Deployed projects include the Smart BAC II Education Platform and the AI Math Learning System, alongside several specialized platforms under active refinement.";
+        responseContent = "Deployed projects include the Smart BAC II Education Platform and the AI Math Learning System, alongside custom UI systems and automated document engines.";
       } else if (query.toLowerCase().includes('approach')) {
-        responseContent = "I follow a continuous 6-stage engineering process: Discover → Design → Build → AI Integration → Deploy → Optimize.";
+        responseContent = "I follow a continuous 8-stage product development process: Discover → Plan → Design → Build → Integrate → Test → Deploy → Improve.";
       }
       setMessages(prev => [...prev, { role: 'assistant', content: responseContent }]);
       setIsProcessing(false);
@@ -556,91 +946,110 @@ export const PortfolioMaster: React.FC = () => {
     {
       num: "01",
       title: "DISCOVER",
-      summary: "Understand the problem",
-      details: ["Requirements", "Research", "User Goals", "Architecture"],
-      clientValue: "He doesn't just start coding. He understands what needs to be built."
+      summary: "Understand your business goals & workflow pain points",
+      details: ["Client Consultation", "Requirement Discovery", "User Persona Setup", "Scope Definition"],
+      clientValue: "I understand the real business problem before writing any code."
     },
     {
       num: "02",
-      title: "DESIGN",
-      summary: "Turn ideas into usable products",
-      details: ["User Flows", "UI Component Tokenization", "Database Structures", "System Schemas"],
-      clientValue: "He can turn my idea into an actual product structure."
+      title: "PLAN",
+      summary: "Define architecture, data models & system blueprints",
+      details: ["System Schemas", "Database Modeling", "API Routing Blueprint", "Milestone Roadmap"],
+      clientValue: "You get a structured plan of exactly what will be built."
     },
     {
       num: "03",
-      title: "BUILD",
-      summary: "Full-stack product development",
-      details: ["Responsive React/TS", "FastAPI Endpoints", "Supabase Auth & DB", "Business Logic"],
-      clientValue: "He can build the complete application."
+      title: "DESIGN",
+      summary: "Craft clean, modern UI/UX tailored to your brand",
+      details: ["Wireframes", "Interactive Prototypes", "Responsive Systems", "Accessibility Standards"],
+      clientValue: "Your customers get an intuitive, premium interface."
     },
     {
       num: "04",
-      title: "INTELLIGENCE",
-      summary: "Add AI where it matters",
-      details: ["LLM Integration", "Vector Search", "Document AI", "Intelligent Workflows"],
-      clientValue: "He can integrate AI into my product instead of just building a normal website."
+      title: "BUILD",
+      summary: "Full-stack frontend & backend product engineering",
+      details: ["React / TypeScript UI", "FastAPI / Python Logic", "Supabase DB & Auth", "Business Logic"],
+      clientValue: "Your idea turns into a fully functioning digital system."
     },
     {
       num: "05",
-      title: "DEPLOY",
-      summary: "Ship production-ready systems",
-      details: ["Vercel Edge & Railway", "Environment Config", "CI/CD Workflows", "Live Monitoring"],
-      clientValue: "He can actually take the project live."
+      title: "INTEGRATE",
+      summary: "Connect payments, AI models & third-party APIs",
+      details: ["Payment Provider APIs", "LLM & Vector Pipelines", "Automated Webhooks", "Notification Channels"],
+      clientValue: "Your software connects seamlessly to payments, AI, and external tools."
     },
     {
       num: "06",
-      title: "OPTIMIZE",
-      summary: "Improve, monitor, and evolve",
-      details: ["Performance Tuning", "UX Refinement", "Bug Squashing", "Continuous Iteration"],
-      clientValue: "The project doesn't end when the first version is deployed."
+      title: "TEST",
+      summary: "Rigorous quality, speed, security & cross-device checks",
+      details: ["Security Hardening", "Mobile Usability Check", "Edge Latency Audit", "End-to-End Testing"],
+      clientValue: "Your product operates reliably without unexpected bugs or crashes."
+    },
+    {
+      num: "07",
+      title: "DEPLOY",
+      summary: "Ship production systems to global cloud infrastructure",
+      details: ["Vercel Edge & Railway", "Custom Domain Config", "SSL & Env Hardening", "CI/CD Deployment"],
+      clientValue: "Your system goes live smoothly for real customers to use."
+    },
+    {
+      num: "08",
+      title: "IMPROVE",
+      summary: "Monitor performance, squash bugs & add future features",
+      details: ["Real-time Telemetry", "User Feedback Refinements", "Performance Tuning", "Ongoing Scalability"],
+      clientValue: "Your digital asset continues to evolve as your business grows."
     }
   ];
 
-  const solutionCards = [
+  const modalBuildSteps = [
     {
-      title: "AI-Powered Applications",
-      desc: "AI assistants, intelligent workflows, document intelligence, AI automation, and LLM-powered products."
+      num: "01",
+      title: "DISCOVER",
+      desc: "Understand your business, users, goals, and primary workflow pain points.",
+      impl: "Stakeholder alignment, technical requirements document, feature prioritization matrix."
     },
     {
-      title: "Business Management Systems",
-      desc: "Admin dashboards, management platforms, internal tools, reporting systems, and workflow automation."
+      num: "02",
+      title: "PLAN",
+      desc: "Define product features, user flows, database structures, and overall system architecture.",
+      impl: "ERD database diagramming, REST API schema definition, security policy modeling."
     },
     {
-      title: "E-Commerce Platforms",
-      desc: "Modern online stores with product management, authentication, orders, payments, dashboards, and responsive UX."
+      num: "03",
+      title: "DESIGN",
+      desc: "Create the interface and interaction structure before full-scale software development.",
+      impl: "Tailwind design tokens, modular React component hierarchy, desktop/mobile wireframes."
     },
     {
-      title: "Education Platforms",
-      desc: "Learning platforms, quizzes, student dashboards, educational tools, progress tracking, and AI-assisted learning."
+      num: "04",
+      title: "BUILD",
+      desc: "Develop the frontend views, backend logic, database tables, authentication, and core business rules.",
+      impl: "Typed React components, FastAPI route handlers, Supabase row-level security constraints."
     },
     {
-      title: "Custom Web Applications",
-      desc: "Unique web products designed around specific business requirements instead of generic templates."
+      num: "05",
+      title: "INTEGRATE",
+      desc: "Connect payments, AI capabilities, external APIs, messaging notifications, or required integrations.",
+      impl: "Third-party payment gateways, OpenAI/Anthropic/Gemini APIs, automated webhook handlers."
     },
     {
-      title: "AI Automation Tools",
-      desc: "Automate repetitive workflows using AI, APIs, agents, data processing, and intelligent decision systems."
+      num: "06",
+      title: "TEST",
+      desc: "Test system functionality, mobile responsiveness, operational security, and real-world user flows.",
+      impl: "End-to-end integration tests, mobile viewport validation, API latency stress testing."
     },
     {
-      title: "Portfolio & Professional Websites",
-      desc: "High-end personal brands, portfolios, landing pages, and professional websites designed to convert visitors."
+      num: "07",
+      title: "DEPLOY",
+      desc: "Launch the system online with secure domains, edge servers, and production environment settings.",
+      impl: "Vercel edge hosting, Railway container instances, SSL certificates, environment variables."
     },
     {
-      title: "Dashboards & Data Systems",
-      desc: "Real-time dashboards, analytics interfaces, data management systems, and operational control panels."
+      num: "08",
+      title: "IMPROVE",
+      desc: "Monitor live operations, fix emerging issues, optimize loading speeds, and scale new features over time.",
+      impl: "Error telemetry, performance query optimization, continuous feature iteration pipelines."
     }
-  ];
-
-  const clientValuePoints = [
-    "01  Clear product architecture",
-    "02  Modern user experience",
-    "03  AI integration when valuable",
-    "04  Responsive frontend",
-    "05  Secure backend & database",
-    "06  Production deployment",
-    "07  Performance optimization",
-    "08  Continued iteration"
   ];
 
   const techWallData = [
@@ -767,110 +1176,186 @@ export const PortfolioMaster: React.FC = () => {
         whileInView={{ scaleX: 1 }}
       />
 
-      {/* BOOT LOADING SCREEN */}
+      {/* REACT-POWERED CINEMATIC AI BOOT & AUTHORIZATION OVERLAY */}
       <AnimatePresence>
-        {!isLoaded && (
+        {bootState !== 'entered' && (
           <motion.div 
-            initial={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0, 
-              scale: 1.05, 
-              filter: "blur(12px)",
+              scale: 1.03, 
+              filter: "blur(10px)",
               transition: { duration: 0.8, ease: PREMIUM_EASE } 
             }}
-            className="fixed inset-0 z-[100] bg-[#0c0c0c] flex flex-col justify-between p-6 md:p-16 border-b border-red-900/30"
+            className="fixed inset-0 z-[100] bg-[#0c0c0c] flex flex-col justify-between p-4 sm:p-6 md:p-12 border-b border-red-900/30 overflow-hidden font-mono select-none"
           >
-            <div className="flex justify-between items-center text-xs tracking-widest uppercase text-zinc-500">
-              <div className="flex items-center gap-2 text-red-500 font-semibold">
-                <span className="w-2 h-2 bg-red-600 animate-ping rounded-full"></span>
-                <span>SYS_BOOT // SEQUENCE ACTIVE</span>
+            {/* Background Visual Enhancements */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#dc2626 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+            
+            {/* Subtle Scanning Sweep Line */}
+            <motion.div 
+              animate={{ y: ['-100%', '1000%'] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="absolute left-0 right-0 h-24 bg-gradient-to-b from-transparent via-red-600/5 to-transparent pointer-events-none"
+            />
+
+            {/* TOP BAR */}
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="relative z-20 flex justify-between items-center text-[10px] sm:text-xs tracking-widest uppercase text-zinc-500 border-b border-zinc-900 pb-3"
+            >
+              <div className="flex items-center gap-2 text-red-500 font-bold">
+                <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse shadow-[0_0_8px_#dc2626]" />
+                <span>● JJ // SYSTEM BOOT</span>
+                <span className="text-zinc-600 hidden sm:inline ml-2">PORTFOLIO ENVIRONMENT INITIALIZING</span>
               </div>
-              <span className="text-zinc-600 hidden sm:inline">[SECURE PORTFOLIO ENVIRONMENT]</span>
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-500 hidden md:inline">[SECURE ENVIRONMENT]</span>
+                <span className="text-red-500 font-bold">
+                  [{bootState === 'booting' ? 'INITIALIZING...' : 'ONLINE'}]
+                </span>
+              </div>
+            </motion.div>
+
+            {/* CENTER CONTENT */}
+            <div className="relative z-20 my-auto flex flex-col items-center justify-center max-w-xl mx-auto w-full py-4">
+              <AnimatePresence mode="wait">
+                {bootState === 'booting' && (
+                  <motion.div 
+                    key="booting-phase"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95, filter: "blur(6px)" }}
+                    transition={{ duration: 0.5 }}
+                    className="flex flex-col items-center w-full"
+                  >
+                    {/* 3D System Architecture Central Core */}
+                    <motion.div 
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.6, ease: PREMIUM_EASE }}
+                      className="w-48 h-48 sm:w-60 sm:h-60 relative flex items-center justify-center my-2"
+                    >
+                      <BootSystemCoreCanvas isMobile={isMobileDevice} />
+                      <div className="absolute inset-0 rounded-full border border-red-600/20 animate-ping pointer-events-none" />
+                    </motion.div>
+
+                    {/* Sequential Boot Logs Terminal */}
+                    <div className="w-full bg-[#101010]/90 border border-zinc-800/80 p-4 rounded-xl shadow-2xl space-y-2 mt-4 backdrop-blur-sm relative overflow-hidden">
+                      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-red-600/50 to-transparent" />
+                      <div className="flex items-center justify-between text-[10px] text-zinc-500 pb-2 border-b border-zinc-800/60 mb-2 font-mono">
+                        <span className="flex items-center gap-1.5"><Terminal className="w-3 h-3 text-red-500" /> SYSTEM_KERNEL_LOG</span>
+                        <span>EXECUTION_MODE: AUTO</span>
+                      </div>
+
+                      <div className="space-y-1.5 text-[10px] sm:text-[11px] font-mono min-h-[120px]">
+                        {bootLogLines.map((line, idx) => (
+                          <motion.div 
+                            key={idx}
+                            initial={{ opacity: 0, x: -8, filter: "blur(4px)" }}
+                            animate={visibleLogIndex > idx ? { opacity: 1, x: 0, filter: "blur(0px)" } : { opacity: 0, x: -8, filter: "blur(4px)" }}
+                            transition={{ duration: 0.3, ease: PREMIUM_EASE }}
+                            className={`flex justify-between items-center ${idx === visibleLogIndex - 1 ? 'text-zinc-200' : 'text-zinc-500'}`}
+                          >
+                            <span>{line.split('.............')[0]}.............</span>
+                            <span className="text-red-500 font-bold ml-2">OK</span>
+                          </motion.div>
+                        ))}
+
+                        {visibleLogIndex >= 5 && (
+                          <motion.div 
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4 }}
+                            className="pt-2 border-t border-zinc-800/60 mt-2 space-y-1"
+                          >
+                            <p className="text-white font-bold tracking-wider flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
+                              SYSTEM READY.
+                            </p>
+                            <p className="text-red-400 font-mono text-[10px] flex items-center gap-1">
+                              WAITING FOR HUMAN AUTHORIZATION...
+                              <span className="inline-block w-1.5 h-3 bg-red-600 animate-pulse" />
+                            </p>
+                          </motion.div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {(bootState === 'ready' || bootState === 'authorizing') && (
+                  <motion.div 
+                    key="authorization-phase"
+                    initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, scale: 1.05, filter: "blur(12px)" }}
+                    transition={{ duration: 0.6, ease: PREMIUM_EASE }}
+                    className="w-full max-w-md bg-[#111111] border border-red-900/50 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(220,38,38,0.18)] relative overflow-hidden text-center backdrop-blur-md"
+                  >
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-900" />
+                    
+                    <div className="flex items-center justify-center gap-2 text-[10px] text-red-500 font-mono tracking-widest uppercase mb-4">
+                      <ShieldCheck className="w-4 h-4 text-red-500 animate-pulse" />
+                      <span>// SYSTEM ACCESS CONTROL</span>
+                    </div>
+
+                    <h2 className="font-display text-2xl sm:text-3xl text-white uppercase tracking-tight font-black leading-tight">
+                      ARE YOU READY <br />
+                      <span className="text-red-600">TO ENTER MY PORTFOLIO?</span>
+                    </h2>
+
+                    <p className="text-xs text-zinc-400 font-mono mt-3 leading-relaxed max-w-xs mx-auto">
+                      The system is initialized. <br />
+                      Your access request is ready.
+                    </p>
+
+                    <div className="mt-8 space-y-3">
+                      <motion.button 
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={handleAuthorizeClick}
+                        disabled={bootState === 'authorizing'}
+                        aria-label="Authorize access and enter portfolio"
+                        className="w-full py-4 px-6 bg-[#181818] hover:bg-red-950/40 border border-red-600/80 hover:border-red-500 text-white font-mono text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] flex items-center justify-center gap-3 group relative overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-red-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        
+                        {bootState === 'ready' ? (
+                          <>
+                            <span>[ ENTER PORTFOLIO → ]</span>
+                          </>
+                        ) : (
+                          <div className="flex items-center gap-2 text-red-400">
+                            <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+                            <span>[ AUTHORIZING... ACCESS GRANTED ]</span>
+                          </div>
+                        )}
+                      </motion.button>
+
+                      {bootState === 'ready' && (
+                        <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">
+                          AUTHENTICATION REQUIRED TO PROCEED
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            <div className="max-w-xl mx-auto w-full space-y-6">
-              <motion.div 
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, ease: PREMIUM_EASE }}
-                className="border border-[#222] bg-[#121212] p-6 shadow-2xl relative overflow-hidden group"
-              >
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-transparent"></div>
-                
-                <motion.div 
-                  animate={{ x: ['-100%', '200%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-red-600/10 to-transparent pointer-events-none"
-                />
-
-                <div className="flex items-center gap-2 text-xs text-red-500 mb-4 pb-3 border-b border-[#222]">
-                  <Terminal className="w-4 h-4" />
-                  <span>jj-systems@kernel:~$ boot_sequence</span>
-                </div>
-
-                <motion.div 
-                  variants={staggerContainerVariant}
-                  initial="hidden"
-                  animate="visible"
-                  className="space-y-2.5 text-[11px] text-zinc-400 font-mono"
-                >
-                  <motion.p variants={staggerItemVariant} className="flex justify-between">
-                    <span>[INIT] Loading neural architecture weights...</span> 
-                    <span className="text-red-500 font-bold">OK</span>
-                  </motion.p>
-                  <motion.p variants={staggerItemVariant} className="flex justify-between">
-                    <span>[INIT] Mounting vector database indices...</span> 
-                    <span className="text-red-500 font-bold">OK</span>
-                  </motion.p>
-                  <motion.p variants={staggerItemVariant} className="flex justify-between">
-                    <span>[INIT] Establishing secure handshake...</span> 
-                    <span className="text-red-500 font-bold">OK</span>
-                  </motion.p>
-                  <motion.p variants={staggerItemVariant} className="text-white font-bold pt-3 border-t border-[#222] mt-2 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
-                    SYSTEM READY FOR HUMAN INTERACTION.
-                  </motion.p>
-                </motion.div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.3, ease: PREMIUM_EASE }}
-                className="flex flex-col items-center justify-center pt-4"
-              >
-                <motion.div 
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
-                  onClick={handleMobileBoot}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative group cursor-pointer w-full max-w-sm py-5 px-6 border border-red-600/60 bg-red-950/10 hover:bg-red-950/30 transition-colors text-center overflow-hidden shadow-[0_0_30px_rgba(220,38,38,0.15)]"
-                >
-                  <div 
-                    className="absolute inset-0 bg-red-600/25 transition-all duration-75 pointer-events-none"
-                    style={{ width: `${hoverProgress}%` }}
-                  ></div>
-
-                  <div className="relative z-10 flex items-center justify-center gap-3">
-                    <Power className={`w-4 h-4 text-red-500 transition-transform duration-300 ${isHovering ? 'scale-125 rotate-90 text-white' : ''}`} />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white font-mono">
-                      {isMobileDevice 
-                        ? 'TAP TO ENTER PORTFOLIO' 
-                        : (hoverProgress > 0 ? `INITIALIZING... [${Math.round(hoverProgress)}%]` : 'HOVER MOUSE TO CONTINUE')}
-                    </span>
-                  </div>
-                </motion.div>
-                <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-3 font-mono">
-                  {isMobileDevice ? 'Mobile viewport initialized' : 'Keep cursor steady inside the module to trigger authorization.'}
-                </p>
-              </motion.div>
-            </div>
-
-            <div className="flex justify-between items-center text-[10px] text-zinc-600 uppercase tracking-widest font-mono">
+            {/* BOTTOM BAR */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="relative z-20 flex justify-between items-center text-[10px] text-zinc-600 uppercase tracking-widest border-t border-zinc-900 pt-3"
+            >
               <p>JJ // AI ENGINEER & FULL-STACK ARCHITECT</p>
-              <p>CAMBODIA</p>
-            </div>
+              <p className="hidden sm:inline">CAMBODIA</p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -987,7 +1472,7 @@ export const PortfolioMaster: React.FC = () => {
 
       <motion.main 
         initial={{ scale: 0.98, opacity: 0 }}
-        animate={isLoaded ? { scale: 1, opacity: 1 } : { scale: 0.98, opacity: 0 }}
+        animate={bootState === 'entered' ? { scale: 1, opacity: 1 } : { scale: 0.98, opacity: 0 }}
         transition={{ duration: 0.9, ease: PREMIUM_EASE }}
         className="pt-16 md:pt-8"
       >
@@ -1016,7 +1501,7 @@ export const PortfolioMaster: React.FC = () => {
             <motion.div 
               variants={staggerContainerVariant}
               initial="hidden"
-              animate={isLoaded ? "visible" : "hidden"}
+              animate={bootState === 'entered' ? "visible" : "hidden"}
               className="lg:col-span-4 z-10 flex items-center"
             >
               <div className="space-y-6 w-full">
@@ -1038,7 +1523,7 @@ export const PortfolioMaster: React.FC = () => {
 
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-              animate={isLoaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : {}}
+              animate={bootState === 'entered' ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : {}}
               transition={{ duration: 0.9, delay: 0.4, ease: PREMIUM_EASE }}
               className="lg:col-span-4 z-10 flex justify-center relative"
             >
@@ -1067,7 +1552,7 @@ export const PortfolioMaster: React.FC = () => {
             <motion.div 
               variants={staggerContainerVariant}
               initial="hidden"
-              animate={isLoaded ? "visible" : "hidden"}
+              animate={bootState === 'entered' ? "visible" : "hidden"}
               className="lg:col-span-4 z-10 flex flex-col justify-center lg:pl-12"
             >
               <div className="space-y-8 w-full">
@@ -1407,7 +1892,7 @@ export const PortfolioMaster: React.FC = () => {
           </div>
         </motion.section>
 
-        {/* CAPABILITIES SECTION */}
+        {/* CAPABILITIES SECTION (#skills) */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1416,23 +1901,31 @@ export const PortfolioMaster: React.FC = () => {
           id="skills" 
           className="px-5 md:px-16 py-16 md:py-28 border-b border-[#222] max-w-[1440px] mx-auto relative overflow-hidden"
         >
+          {/* Subtle Grid Background */}
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#dc2626 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
           <div className="relative z-10 space-y-16 md:space-y-24">
             
-            {/* SECTION HEADER */}
+            {/* 1. SECTION HEADER */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
               <div className="lg:col-span-7 space-y-4 md:space-y-6">
                 <div className="flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-red-500 font-semibold">
                   <span className="w-2 h-2 bg-red-600 animate-ping rounded-full"></span>
-                  <span>// ENGINEERING CAPABILITIES</span>
+                  <span>// WHAT I CAN BUILD FOR YOU</span>
                 </div>
-                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight font-black">
-                  WHAT I CAN <span className="italic text-red-600">BUILD.</span>
+                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight font-black leading-none">
+                  TURN YOUR IDEA INTO A <span className="italic text-red-600">WORKING SYSTEM.</span>
                 </h2>
                 <p className="text-sm md:text-base text-zinc-300 font-sans leading-relaxed max-w-2xl">
-                  I design and build intelligent digital products — from AI-powered applications and business systems to scalable full-stack platforms.
+                  Websites, business systems, e-commerce platforms, POS systems, AI tools, automation, and custom software — designed around what you actually need.
                 </p>
+
+                <div className="border-l-2 border-red-600/80 bg-red-950/10 p-3.5 rounded-r-lg max-w-xl">
+                  <p className="text-xs font-mono text-zinc-300">
+                    <span className="text-red-400 font-bold">// CORE PURPOSE: </span>
+                    "Tell me what is making your business or workflow difficult. I can design and build the digital system that makes it easier."
+                  </p>
+                </div>
               </div>
 
               <div className="lg:col-span-5 w-full">
@@ -1440,17 +1933,87 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </div>
 
-            {/* ROADMAP */}
+            {/* 2. PRIMARY CAPABILITY GRID (SIX CORE SERVICES) */}
+            <div className="space-y-8">
+              <div className="flex justify-between items-center border-b border-[#222] pb-3">
+                <span className="text-xs font-bold font-mono uppercase tracking-widest text-red-500 flex items-center gap-2">
+                  // TELL ME WHAT YOU NEED
+                </span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest hidden sm:inline">[CLICK ANY CARD FOR BLUEPRINT]</span>
+              </div>
+
+              <motion.div 
+                variants={staggerContainerVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+              >
+                {capabilityServices.map((service) => (
+                  <motion.div
+                    key={service.id}
+                    variants={staggerItemVariant}
+                    whileHover={{ y: -6 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setActiveCapabilityModal(service)}
+                    className="border border-[#222] bg-[#121212] hover:bg-[#161616] hover:border-red-600/80 p-6 rounded-xl space-y-4 shadow-xl transition-all duration-300 group cursor-pointer relative overflow-hidden"
+                  >
+                    {/* Top Glow Accent on Hover */}
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-transparent group-hover:bg-gradient-to-r group-hover:from-transparent group-hover:via-red-600 group-hover:to-transparent transition-all duration-500"></div>
+
+                    {/* Card Header: Number & Minimal Icon */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-mono text-xs font-bold text-zinc-500 group-hover:text-red-500 transition-colors">
+                        {service.number}
+                      </span>
+                      <div className="p-2 bg-[#1a1a1a] border border-[#2a2a2a] group-hover:border-red-600/50 rounded-lg group-hover:scale-110 transition-transform">
+                        {service.icon}
+                      </div>
+                    </div>
+
+                    {/* Title & Short Description */}
+                    <div className="space-y-2">
+                      <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
+                        {service.title}
+                      </h3>
+                      <p className="text-xs text-zinc-400 font-sans leading-relaxed line-clamp-3">
+                        {service.shortDesc}
+                      </p>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {service.tags.map((tag, tIdx) => (
+                        <span key={tIdx} className="text-[9px] font-mono px-2 py-0.5 bg-[#1a1a1a] border border-[#2a2a2a] text-zinc-400 group-hover:border-red-900/50 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Subtle Interactive CTA */}
+                    <div className="pt-3 border-t border-[#222] flex justify-between items-center text-[10px] font-mono text-zinc-400 group-hover:text-red-400 transition-colors">
+                      <span>EXPLORE SYSTEM</span>
+                      <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        <span>VIEW HOW IT WORKS</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-red-500" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* 3. ENGINEERING PROCESS ROADMAP (REPOSITIONED) */}
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-[#222] pb-3">
                 <span className="text-xs font-bold font-mono uppercase tracking-widest text-red-500 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-red-500 animate-pulse" />
-                  // CAPABILITY JOURNEY & PIPELINE
+                  // HOW I TURN YOUR IDEA INTO A SYSTEM
                 </span>
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest hidden sm:inline">[LIVE ENGINEERING PIPELINE]</span>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest hidden sm:inline">[END-TO-END DEVELOPMENT PIPELINE]</span>
               </div>
 
-              {/* DESKTOP HORIZONTAL ROADMAP */}
+              {/* DESKTOP HORIZONTAL PIPELINE */}
               <div 
                 ref={roadmapCardRef}
                 onMouseMove={handleRoadmapMouseMove}
@@ -1460,7 +2023,7 @@ export const PortfolioMaster: React.FC = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-red-950/10 via-transparent to-red-950/10 pointer-events-none"></div>
 
-                <div className="absolute top-[82px] left-[7%] right-[7%] h-[2px] bg-zinc-800">
+                <div className="absolute top-[82px] left-[5%] right-[5%] h-[2px] bg-zinc-800">
                   <motion.div 
                     style={{ left: smoothXPercent, x: '-50%' }}
                     animate={{ opacity: isRoadmapHovered ? 1 : 0 }}
@@ -1471,7 +2034,7 @@ export const PortfolioMaster: React.FC = () => {
                   </motion.div>
                 </div>
 
-                <div className="grid grid-cols-6 gap-3 relative z-10">
+                <div className="grid grid-cols-4 lg:grid-cols-8 gap-2 relative z-10">
                   {roadmapNodes.map((node, idx) => {
                     const isHovered = hoveredRoadmapNode === idx;
                     return (
@@ -1484,31 +2047,22 @@ export const PortfolioMaster: React.FC = () => {
                         <motion.div 
                           animate={isHovered ? { y: -6 } : { y: 0 }}
                           transition={{ duration: 0.2, ease: PREMIUM_EASE }}
-                          className={`w-12 h-12 rounded-full border flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 relative bg-[#0c0c0c] ${
+                          className={`w-10 h-10 rounded-full border flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 relative bg-[#0c0c0c] ${
                             isHovered 
                               ? 'border-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.6)] bg-red-950/40 scale-110' 
                               : 'border-zinc-800 text-red-500 group-hover:border-red-600/80'
                           }`}
                         >
                           {node.num}
-                          <div className={`absolute inset-0 rounded-full animate-ping opacity-20 bg-red-600 ${isHovered ? 'block' : 'hidden'}`}></div>
                         </motion.div>
 
-                        <div className="mt-6 space-y-2 px-1">
-                          <h4 className="font-display text-base uppercase font-bold text-white group-hover:text-red-500 transition-colors">
+                        <div className="mt-4 space-y-1.5 px-0.5">
+                          <h4 className="font-display text-xs uppercase font-bold text-white group-hover:text-red-500 transition-colors truncate">
                             {node.title}
                           </h4>
-                          <p className="text-[11px] text-zinc-400 font-sans leading-tight">
+                          <p className="text-[10px] text-zinc-400 font-sans leading-tight line-clamp-2">
                             {node.summary}
                           </p>
-
-                          <div className="flex flex-wrap justify-center gap-1 pt-2">
-                            {node.details.map((detail, dIdx) => (
-                              <span key={dIdx} className="text-[9px] font-mono px-1.5 py-0.5 bg-[#161616] border border-[#2a2a2a] text-zinc-400 rounded">
-                                {detail}
-                              </span>
-                            ))}
-                          </div>
 
                           <AnimatePresence>
                             {isHovered && (
@@ -1517,7 +2071,7 @@ export const PortfolioMaster: React.FC = () => {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 5, scale: 0.95 }}
                                 transition={{ duration: 0.2 }}
-                                className="mt-3 p-3 bg-black/95 border border-red-600/60 rounded-xl shadow-2xl text-[10px] text-left text-zinc-300 font-mono"
+                                className="mt-2 p-2 bg-black/95 border border-red-600/60 rounded-lg shadow-2xl text-[9px] text-left text-zinc-300 font-mono z-30"
                               >
                                 <span className="text-red-400 font-bold block mb-1 uppercase">// CLIENT IMPACT</span>
                                 <p className="italic text-white">"{node.clientValue}"</p>
@@ -1535,7 +2089,7 @@ export const PortfolioMaster: React.FC = () => {
               <div className="md:hidden relative py-6 px-4 border border-[#222] bg-[#0e0e0e] rounded-2xl shadow-xl overflow-hidden">
                 <div className="absolute top-8 bottom-8 left-8 w-[2px] bg-zinc-800"></div>
 
-                <div className="space-y-8 relative z-10 pl-14">
+                <div className="space-y-6 relative z-10 pl-14">
                   {roadmapNodes.map((node) => (
                     <div key={node.num} className="relative">
                       <div className="absolute -left-14 top-0 w-8 h-8 rounded-full border border-red-600/60 bg-[#0c0c0c] flex items-center justify-center font-mono text-[10px] font-bold text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)]">
@@ -1543,20 +2097,9 @@ export const PortfolioMaster: React.FC = () => {
                       </div>
 
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-display text-lg font-bold text-white uppercase">{node.title}</h4>
-                        </div>
+                        <h4 className="font-display text-sm font-bold text-white uppercase">{node.title}</h4>
                         <p className="text-xs text-zinc-300 font-sans font-medium">{node.summary}</p>
-                        
-                        <div className="flex flex-wrap gap-1 pt-1">
-                          {node.details.map((detail, dIdx) => (
-                            <span key={dIdx} className="text-[9px] font-mono px-2 py-0.5 bg-[#161616] border border-[#262626] text-zinc-400 rounded">
-                              {detail}
-                            </span>
-                          ))}
-                        </div>
-
-                        <p className="text-[10px] font-mono italic text-red-400 pt-1">
+                        <p className="text-[10px] font-mono italic text-red-400 pt-0.5">
                           "{node.clientValue}"
                         </p>
                       </div>
@@ -1566,69 +2109,11 @@ export const PortfolioMaster: React.FC = () => {
               </div>
             </div>
 
-            {/* SOLUTION CARDS */}
-            <div className="space-y-8">
-              <div>
-                <span className="text-xs font-mono tracking-widest uppercase text-red-500 font-bold block mb-1">
-                  // WHAT I CAN BUILD FOR YOU
-                </span>
-                <h3 className="font-display text-3xl md:text-5xl text-white uppercase tracking-tight font-black">
-                  FROM IDEA → <span className="text-red-600">WORKING PRODUCT.</span>
-                </h3>
-              </div>
-
-              <motion.div 
-                variants={staggerContainerVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-              >
-                {solutionCards.map((card, idx) => (
-                  <motion.div 
-                    key={idx}
-                    variants={staggerItemVariant}
-                    whileHover={{ y: -5, borderColor: '#dc2626' }}
-                    className="border border-[#222] bg-[#121212] p-5 rounded-xl space-y-3 shadow-lg group transition-colors"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-red-950/30 border border-red-900/40 flex items-center justify-center font-mono text-xs font-bold text-red-500 group-hover:border-red-600">
-                      0{idx + 1}
-                    </div>
-                    <h4 className="font-display text-base font-bold text-white uppercase group-hover:text-red-500 transition-colors">
-                      {card.title}
-                    </h4>
-                    <p className="text-xs text-zinc-400 font-sans leading-relaxed">
-                      {card.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* CLIENT VALUE STRIP */}
-            <div className="border border-red-900/40 bg-gradient-to-r from-red-950/20 via-[#121212] to-red-950/20 p-6 md:p-8 rounded-2xl shadow-2xl space-y-6">
-              <div className="flex items-center justify-between border-b border-red-900/30 pb-3">
-                <span className="text-xs font-mono text-red-500 font-bold tracking-widest uppercase flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-red-500" />
-                  // WHAT YOU GET
-                </span>
-                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">[CLIENT VALUE GUARANTEE]</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs text-zinc-200">
-                {clientValuePoints.map((point, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-[#0a0a0a]/80 border border-[#222] rounded-xl hover:border-red-600/50 transition-colors">
-                    <Check className="w-4 h-4 text-red-500 shrink-0" />
-                    <span>{point}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* TECHNOLOGY WALL */}
+            {/* 4. TECHNOLOGY WALL */}
             <div className="space-y-4">
               <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// TECHNOLOGY STACK & TOOLS</h3>
+                <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-red-500">// SKILL // TOOL // FRAMWORK</h3>
+                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">[CLICK FOR SPEC]</span>
               </div>
               <motion.div 
                 variants={staggerContainerVariant}
@@ -1719,54 +2204,22 @@ export const PortfolioMaster: React.FC = () => {
                   >
                     <div className="relative z-10 flex justify-between items-center text-[10px] font-mono border-b border-white/10 pb-3">
                       <span className="text-red-400 font-bold">{proj.number}</span>
-                      <span className={`uppercase font-bold px-2 py-0.5 rounded text-[9px] ${
-                        proj.status === 'ACTIVE_DEPLOY' 
-                          ? 'bg-green-950/80 text-green-400 border border-green-800/50' 
-                          : 'bg-zinc-800/80 text-zinc-400 border border-zinc-700/50'
-                      }`}>
-                        {proj.status === 'ACTIVE_DEPLOY' ? 'ACTIVE DEPLOY' : 'UNDER MAINTENANCE'}
-                      </span>
+                      <span className="uppercase font-bold px-2 py-0.5 rounded text-white bg-zinc-800">{proj.status}</span>
                     </div>
 
-                    <div className="relative z-10 w-full h-[200px] rounded-xl overflow-hidden border border-white/10 bg-black">
-                      {proj.status === 'ACTIVE_DEPLOY' && proj.image ? (
-                        <div className="w-full h-full relative overflow-hidden group">
-                          <img 
-                            src={proj.image} 
-                            alt={proj.displayTitle} 
-                            className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700" 
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
-                        </div>
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-b from-[#141218] to-[#0a0a0d] flex flex-col items-center justify-center p-4 text-center relative overflow-hidden">
-                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#dc2626_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                          <motion.div 
-                            animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                            className="p-3 bg-red-950/30 border border-red-900/40 rounded-2xl shadow-[0_0_20px_rgba(220,38,38,0.2)] mb-2 z-10"
-                          >
-                            {proj.icon}
-                          </motion.div>
-                          <span className="text-[10px] font-mono uppercase text-red-400 tracking-widest font-bold z-10">SYSTEM MAINTENANCE</span>
-                          <span className="text-[9px] font-mono text-zinc-500 z-10 mt-0.5">CURRENTLY BEING REFINED</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="relative z-10 space-y-2 bg-black/60 backdrop-blur-md p-4 rounded-xl border border-white/10">
-                      <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest block">{proj.category}</span>
-                      <h4 className="font-display text-base text-white uppercase font-bold truncate">{proj.displayTitle}</h4>
-                      <p className="text-xs text-zinc-300 font-sans line-clamp-2 leading-relaxed">
+                    <div className="relative z-10 my-auto space-y-3">
+                      <span className="text-[10px] text-red-500 uppercase tracking-widest font-mono block">{proj.category}</span>
+                      <h3 className="font-display text-2xl font-bold text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">
+                        {proj.displayTitle}
+                      </h3>
+                      <p className="text-xs text-zinc-400 line-clamp-3 font-sans">
                         {proj.description}
                       </p>
-                      
-                      <div className="pt-2 flex justify-between items-center text-[10px] font-mono text-red-400 border-t border-white/10">
-                        <span>ROLE: {proj.role.split('+')[0]}</span>
-                        <span className="flex items-center gap-1 text-white font-bold group-hover:text-red-400 transition-colors">
-                          VIEW DETAILS <ArrowRight className="w-3 h-3" />
-                        </span>
-                      </div>
+                    </div>
+
+                    <div className="relative z-10 pt-4 border-t border-white/10 flex justify-between items-center text-xs font-mono text-zinc-400">
+                      <span>VIEW BLUEPRINT</span>
+                      <ArrowRight className="w-4 h-4 text-red-500 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </motion.div>
                 );
@@ -1774,57 +2227,31 @@ export const PortfolioMaster: React.FC = () => {
             </div>
           </div>
 
-          {/* MOBILE VERTICAL PROJECT CARDS */}
-          <div className="md:hidden space-y-6">
+          {/* MOBILE PROJECT CARDS */}
+          <div className="md:hidden space-y-4">
             {projects.map((proj) => (
               <motion.div 
                 key={proj.id}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveProjectModal(proj)}
-                className="border border-red-900/40 bg-[#121212] rounded-2xl overflow-hidden shadow-xl p-5 space-y-4 active:border-red-600 transition-colors"
+                className="bg-[#121212] border border-[#222] active:border-red-600 rounded-2xl p-5 space-y-3 shadow-xl"
               >
-                <div className="flex justify-between items-center border-b border-[#222] pb-3 text-[10px] font-mono">
+                <div className="flex justify-between items-center text-[10px] font-mono">
                   <span className="text-red-500 font-bold">{proj.number}</span>
-                  <span className={`px-2 py-0.5 rounded font-bold ${
-                    proj.status === 'ACTIVE_DEPLOY' ? 'bg-green-950 text-green-400 border border-green-800' : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
-                  }`}>
-                    {proj.status === 'ACTIVE_DEPLOY' ? 'ACTIVE DEPLOY' : 'UNDER MAINTENANCE'}
-                  </span>
+                  <span className="text-zinc-500">{proj.category}</span>
                 </div>
-
-                <div className="w-full h-48 rounded-xl overflow-hidden bg-black relative border border-[#222]">
-                  {proj.status === 'ACTIVE_DEPLOY' && proj.image ? (
-                    <img src={proj.image} alt={proj.displayTitle} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full bg-[#121018] flex flex-col items-center justify-center p-4 text-center">
-                      <div className="p-3 bg-red-950/30 border border-red-900/40 rounded-2xl mb-2">
-                        {proj.icon}
-                      </div>
-                      <span className="text-[10px] font-mono text-red-400 font-bold uppercase tracking-widest">SYSTEM BEING REFINED</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{proj.category}</span>
-                  <h3 className="font-display text-xl text-white uppercase tracking-tight font-bold">{proj.displayTitle}</h3>
-                  <p className="text-xs text-zinc-300 font-sans leading-relaxed">{proj.description}</p>
-                </div>
-
-                <div className="pt-2 border-t border-[#222] flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                  <span>ROLE: {proj.role}</span>
-                </div>
-
-                <button className="w-full h-11 bg-red-600/90 text-white font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 font-mono shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-                  <span>VIEW DETAILS</span>
+                <h3 className="font-display text-lg font-bold text-white uppercase">{proj.displayTitle}</h3>
+                <p className="text-xs text-zinc-400 font-sans line-clamp-2">{proj.description}</p>
+                <div className="pt-2 flex justify-between items-center text-[11px] font-mono text-red-400 font-bold border-t border-[#222]">
+                  <span>INSPECT SYSTEM</span>
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </div>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* COPILOT SECTION */}
+        {/* COPILOT AI INTERACTION SECTION */}
         <motion.section 
           variants={fadeUpVariant}
           initial="hidden"
@@ -1833,81 +2260,87 @@ export const PortfolioMaster: React.FC = () => {
           id="copilot" 
           className="px-5 md:px-16 py-16 md:py-28 border-b border-[#222] max-w-[1440px] mx-auto"
         >
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="text-center">
-              <span className="text-xs font-mono tracking-widest uppercase text-red-500 block mb-1">// AI COPILOT</span>
-              <h2 className="font-display text-3xl md:text-5xl text-white uppercase font-bold">ASK ANYTHING</h2>
-              <p className="text-xs text-zinc-400 mt-1 font-sans">
-                Ask about my engineering skills, projects, tools, or development approach.
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-5 space-y-6">
+              <span className="text-xs font-mono tracking-widest uppercase text-red-500 block">// KERNEL AGENT</span>
+              <h2 className="font-display text-4xl md:text-6xl text-white uppercase tracking-tight font-black leading-tight">
+                JJ_AGENT <br />
+                <span className="text-red-600">COPILOT.</span>
+              </h2>
+              <p className="text-xs md:text-sm text-zinc-400 font-sans leading-relaxed">
+                Interact with my portfolio telemetry agent. Inquire about architecture standards, deployment pipelines, or specific engineering workflows.
               </p>
-            </div>
 
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
-              {[
-                "What can you build?",
-                "What is your AI stack?",
-                "Tell me about your projects",
-                "How do you approach a project?"
-              ].map((prompt, pIdx) => (
-                <motion.button
-                  key={pIdx}
-                  whileHover={{ scale: 1.02, borderColor: '#dc2626' }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={(e) => handleCopilotSubmit(e, prompt)}
-                  className="px-3 py-2 bg-[#141414] border border-[#252525] text-zinc-300 text-[11px] font-mono whitespace-nowrap rounded-lg shrink-0 transition-colors"
-                >
-                  {prompt}
-                </motion.button>
-              ))}
-            </div>
-
-            <div className="border border-[#222] bg-[#121212] rounded-2xl overflow-hidden shadow-2xl">
-              <div className="bg-[#1b1c1c] px-4 py-3 border-b border-[#222] flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-red-500" />
-                  <span className="text-xs font-mono uppercase tracking-widest text-red-500">jj-agent@cambodia:~</span>
+              <div className="space-y-2 pt-2">
+                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">// SUGGESTED TELEMETRY PROMPTS:</p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "What can you build for me?",
+                    "What is your tech stack?",
+                    "Tell me about your AI projects.",
+                    "What is your development approach?"
+                  ].map((p, i) => (
+                    <button 
+                      key={i}
+                      onClick={() => handleCopilotSubmit(undefined, p)}
+                      className="text-[11px] font-mono px-3 py-1.5 bg-[#141414] border border-[#262626] hover:border-red-600/80 text-zinc-300 rounded-lg transition-colors text-left"
+                    >
+                      {p}
+                    </button>
+                  ))}
                 </div>
               </div>
+            </div>
 
-              <div className="p-4 md:p-6 h-80 overflow-y-auto flex flex-col space-y-4 text-xs">
-                {messages.map((msg, index) => (
-                  <motion.div 
-                    key={index} 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: PREMIUM_EASE }}
-                    className={`flex items-start gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    {msg.role === 'assistant' && <div className="p-2 bg-[#222] text-red-500 rounded-lg shrink-0"><Bot className="w-4 h-4" /></div>}
-                    <div className={`p-3 max-w-[82%] rounded-xl font-sans ${msg.role === 'user' ? 'bg-red-600 text-white font-medium' : 'bg-[#1b1c1c] text-zinc-200 border border-[#222]'}`}>
-                      {msg.content}
+            <div className="lg:col-span-7 bg-[#0e0e0e] border border-red-900/30 rounded-2xl p-4 md:p-6 shadow-2xl flex flex-col h-[420px] relative overflow-hidden">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-800 text-xs font-mono text-zinc-400">
+                <div className="flex items-center gap-2">
+                  <Bot className="w-4 h-4 text-red-500" />
+                  <span className="text-white font-bold">JJ_AGENT_TERMINAL</span>
+                </div>
+                <span className="text-[10px] text-red-500 animate-pulse">● LATENCY: 38ms</span>
+              </div>
+
+              <div className="flex-1 overflow-y-auto my-4 space-y-3 pr-2 scrollbar-thin scrollbar-thumb-zinc-800">
+                {messages.map((m, i) => (
+                  <div key={i} className={`flex gap-3 text-xs font-mono ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    {m.role === 'assistant' && (
+                      <div className="w-6 h-6 rounded bg-red-950 border border-red-600/50 flex items-center justify-center shrink-0 mt-0.5">
+                        <Bot className="w-3.5 h-3.5 text-red-500" />
+                      </div>
+                    )}
+                    <div className={`p-3 rounded-xl max-w-[85%] leading-relaxed ${
+                      m.role === 'user' 
+                        ? 'bg-red-950/40 border border-red-600/40 text-white' 
+                        : 'bg-[#141414] border border-zinc-800 text-zinc-300'
+                    }`}>
+                      {m.content}
                     </div>
-                    {msg.role === 'user' && <div className="p-2 bg-[#222] text-white rounded-lg shrink-0"><User className="w-4 h-4" /></div>}
-                  </motion.div>
+                  </div>
                 ))}
                 {isProcessing && (
-                  <div className="flex items-center gap-2 text-zinc-500 text-xs animate-pulse font-mono">
-                    <Cpu className="w-4 h-4 text-red-500 animate-spin" />
-                    <span>COMPUTING INFERENCE...</span>
+                  <div className="flex gap-2 items-center text-xs text-red-500 font-mono italic">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
+                    Processing query telemetry...
                   </div>
                 )}
               </div>
 
-              <form onSubmit={(e) => handleCopilotSubmit(e)} className="border-t border-[#222] p-3 bg-[#151515] flex gap-2">
-                <input
+              <form onSubmit={handleCopilotSubmit} className="flex gap-2 pt-2 border-t border-zinc-800">
+                <input 
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask a question..."
-                  className="flex-1 bg-[#0a0a0a] border border-[#333] px-4 py-3 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-red-600 rounded-xl transition-colors font-mono"
+                  placeholder="Enter system prompt query..."
+                  className="flex-1 bg-[#141414] border border-zinc-800 focus:border-red-600 text-white text-xs font-mono px-4 py-3 rounded-xl outline-none"
                 />
-                <motion.button 
-                  whileTap={{ scale: 0.95 }}
+                <button 
                   type="submit" 
-                  className="bg-red-600 text-white px-5 min-h-[48px] text-xs font-bold uppercase tracking-wider rounded-xl active:bg-red-700 flex items-center justify-center shrink-0 font-mono"
+                  aria-label="Send copilot prompt"
+                  className="px-5 bg-red-600 hover:bg-red-700 text-white rounded-xl flex items-center justify-center transition-colors"
                 >
                   <Send className="w-4 h-4" />
-                </motion.button>
+                </button>
               </form>
             </div>
           </div>
@@ -1920,276 +2353,332 @@ export const PortfolioMaster: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           id="contact" 
-          className="px-5 md:px-16 py-16 md:py-28 max-w-[1440px] mx-auto relative overflow-hidden"
+          className="px-5 md:px-16 py-16 md:py-28 max-w-[1440px] mx-auto"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start relative z-10">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5 space-y-6">
-              <div>
-                <span className="text-xs font-mono tracking-widest uppercase text-red-500 block mb-1">// CONTACT</span>
-                <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight leading-none font-black">
-                  LET'S BUILD <br /><span className="italic text-red-600">SOMETHING.</span>
-                </h2>
-                <p className="text-xs text-zinc-400 font-sans mt-3">
-                  Have a project, idea, or technical challenge? Let's talk.
-                </p>
-              </div>
+              <span className="text-xs font-mono tracking-widest uppercase text-red-500 block">// HANDSHAKE</span>
+              <h2 className="font-display text-4xl md:text-7xl text-white uppercase tracking-tight font-black leading-tight">
+                INITIATE <br />
+                <span className="text-red-600">CONTACT.</span>
+              </h2>
+              <p className="text-xs md:text-sm text-zinc-400 font-sans leading-relaxed">
+                Ready to build your next website, AI engine, or custom business software? Transmit your project details directly to my terminal.
+              </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <motion.a 
-                  whileHover={{ x: 3, borderColor: '#dc2626' }}
-                  whileTap={{ scale: 0.98 }}
-                  href="https://www.facebook.com/share/1CH4ULYSe3/?mibextid=wwXIfr" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="border border-[#222] bg-[#121212] p-3.5 rounded-xl flex items-center justify-between transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <Globe className="w-4 h-4 text-red-500" />
-                    <span className="text-white font-bold uppercase font-mono">Facebook</span>
-                  </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-zinc-600" />
-                </motion.a>
-
-                <motion.a 
-                  whileHover={{ x: 3, borderColor: '#dc2626' }}
-                  whileTap={{ scale: 0.98 }}
-                  href="mailto:limhakheng21@gmail.com" 
-                  className="border border-[#222] bg-[#121212] p-3.5 rounded-xl flex items-center justify-between transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-red-500" />
-                    <span className="text-white font-bold uppercase font-mono">Email Direct</span>
-                  </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-zinc-600" />
-                </motion.a>
+              <div className="space-y-4 pt-4 border-t border-[#222]">
+                <div className="flex items-center gap-3 text-xs font-mono text-zinc-300">
+                  <Mail className="w-4 h-4 text-red-500" />
+                  <span>jj.ai.engineer@domain.com</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs font-mono text-zinc-300">
+                  <Globe className="w-4 h-4 text-red-500" />
+                  <span>Phnom Penh, Cambodia</span>
+                </div>
               </div>
             </div>
 
-            <div className="lg:col-span-7">
-              <form onSubmit={handleContactSubmit} className="border border-[#222] bg-[#121212] p-6 md:p-8 rounded-2xl space-y-5 shadow-2xl">
-                <div className="flex justify-between items-center border-b border-[#222] pb-3 text-xs font-mono">
-                  <span className="text-red-500 font-bold">// SECURE TRANSMISSION CHANNEL</span>
-                  <span className="text-zinc-500">[256-BIT ENCRYPTION]</span>
+            <div className="lg:col-span-7 bg-[#121212] border border-[#222] rounded-2xl p-6 md:p-8 shadow-2xl">
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 block mb-1">
+                    [01] SENDER NAME
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    value={formData.sender_name}
+                    onChange={(e) => setFormData({ ...formData, sender_name: e.target.value })}
+                    placeholder="e.g. Alex Mercer"
+                    className="w-full bg-[#181818] border border-[#333] focus:border-red-600 text-white text-xs font-mono p-3.5 rounded-xl outline-none"
+                  />
                 </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1.5">SENDER NAME *</label>
-                    <input 
-                      type="text" 
-                      required
-                      value={formData.sender_name}
-                      onChange={(e) => setFormData({ ...formData, sender_name: e.target.value })}
-                      placeholder="e.g. Alex Vance" 
-                      className="w-full bg-[#0a0a0a] border border-[#333] px-4 py-3 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1.5">SENDER EMAIL *</label>
-                    <input 
-                      type="email" 
-                      required
-                      value={formData.sender_email}
-                      onChange={(e) => setFormData({ ...formData, sender_email: e.target.value })}
-                      placeholder="e.g. alex@company.com" 
-                      className="w-full bg-[#0a0a0a] border border-[#333] px-4 py-3 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1.5">PROJECT SCOPE & REQUIREMENTS *</label>
-                    <textarea 
-                      required
-                      rows={4}
-                      value={formData.project_scope}
-                      onChange={(e) => setFormData({ ...formData, project_scope: e.target.value })}
-                      placeholder="Describe what you want to build..." 
-                      className="w-full bg-[#0a0a0a] border border-[#333] p-4 text-xs text-white placeholder-zinc-600 rounded-xl focus:outline-none focus:border-red-600 font-mono transition-colors"
-                    />
-                  </div>
+                <div>
+                  <label className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 block mb-1">
+                    [02] SENDER EMAIL
+                  </label>
+                  <input 
+                    type="email" 
+                    required
+                    value={formData.sender_email}
+                    onChange={(e) => setFormData({ ...formData, sender_email: e.target.value })}
+                    placeholder="alex@company.com"
+                    className="w-full bg-[#181818] border border-[#333] focus:border-red-600 text-white text-xs font-mono p-3.5 rounded-xl outline-none"
+                  />
                 </div>
 
-                {status === 'error' && (
-                  <div className="p-3 bg-red-950/50 border border-red-800 rounded-xl flex items-center gap-2 text-xs text-red-400 font-mono">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>{errorMessage || 'Transmission failed.'}</span>
-                  </div>
-                )}
-
-                {status === 'success' && (
-                  <div className="p-3 bg-green-950/50 border border-green-800 rounded-xl flex items-center gap-2 text-xs text-green-400 font-mono">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
-                    <span>Transmission sent successfully. I will respond shortly.</span>
-                  </div>
-                )}
+                <div>
+                  <label className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 block mb-1">
+                    [03] PROJECT SCOPE / REQUIREMENTS
+                  </label>
+                  <textarea 
+                    rows={4}
+                    required
+                    value={formData.project_scope}
+                    onChange={(e) => setFormData({ ...formData, project_scope: e.target.value })}
+                    placeholder="Describe system goals, features, or deadlines..."
+                    className="w-full bg-[#181818] border border-[#333] focus:border-red-600 text-white text-xs font-mono p-3.5 rounded-xl outline-none resize-none"
+                  ></textarea>
+                </div>
 
                 <motion.button 
                   whileTap={{ scale: 0.98 }}
-                  disabled={status === 'loading'}
                   type="submit" 
-                  className="w-full py-4 bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-red-700 active:bg-red-800 shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all font-mono flex items-center justify-center gap-2"
+                  disabled={status === 'loading'}
+                  className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase tracking-widest rounded-xl transition-colors shadow-[0_0_20px_rgba(220,38,38,0.3)]"
                 >
-                  {status === 'loading' ? (
-                    <span>TRANSMITTING DATA...</span>
-                  ) : (
-                    <>
-                      <span>TRANSMIT MESSAGE</span>
-                      <Send className="w-4 h-4" />
-                    </>
-                  )}
+                  {status === 'loading' ? 'TRANSMITTING...' : 'TRANSMIT MESSAGE'}
                 </motion.button>
+
+                {status === 'success' && (
+                  <div className="p-3 bg-red-950/40 border border-red-600 text-red-400 text-xs font-mono rounded-xl flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Transmission received. I will reply shortly.</span>
+                  </div>
+                )}
+                {status === 'error' && (
+                  <div className="p-3 bg-red-950/60 border border-red-600 text-red-300 text-xs font-mono rounded-xl flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
               </form>
             </div>
-
           </div>
         </motion.section>
 
       </motion.main>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#222] py-8 px-6 text-center text-xs text-zinc-600 font-mono uppercase tracking-widest">
-        <p>© {new Date().getFullYear()} JJ DEV // ALL RIGHTS RESERVED.</p>
+      <footer className="border-t border-[#222] py-8 px-5 md:px-16 max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-zinc-500">
+        <p>© 2026 JJ PORTFOLIO. ALL RIGHTS RESERVED.</p>
+        <p className="text-[10px] text-zinc-600 uppercase">ENGINEERED WITH REACT, TYPESCRIPT, FRAMER MOTION & THREE.JS</p>
       </footer>
 
-      {/* TECHNOLOGY MODAL */}
+      {/* CAPABILITY MODAL */}
       <AnimatePresence>
-        {activeTechModal && (
+        {activeCapabilityModal && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setActiveTechModal(null)}
-            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="border border-red-600/60 bg-[#121212] p-6 rounded-2xl max-w-md w-full space-y-4 shadow-2xl relative"
-            >
-              <div className="flex justify-between items-center border-b border-[#222] pb-3">
-                <span className="text-xs font-mono text-red-500 font-bold uppercase">// TECH SPECIFICATION</span>
-                <button onClick={() => setActiveTechModal(null)} className="text-zinc-500 hover:text-white">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="flex items-center gap-3">
-                {activeTechModal.icon}
-                <div>
-                  <span className="text-[10px] font-mono text-red-400 uppercase">{activeTechModal.category}</span>
-                  <h3 className="text-2xl font-display font-bold text-white uppercase">{activeTechModal.name}</h3>
-                </div>
-              </div>
-
-              <p className="text-xs text-zinc-300 font-sans leading-relaxed">{activeTechModal.desc}</p>
-
-              <div className="space-y-2 pt-2 border-t border-[#222] text-xs font-mono">
-                <div>
-                  <span className="text-red-400 block uppercase font-bold text-[10px]">PROJECTS APPLIED:</span>
-                  <span className="text-zinc-300">{activeTechModal.projectsUsed}</span>
-                </div>
-                <div>
-                  <span className="text-red-400 block uppercase font-bold text-[10px]">WHY THIS TOOL:</span>
-                  <span className="text-zinc-300 font-sans">{activeTechModal.reason}</span>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* PROJECT DETAILS MODAL */}
-      <AnimatePresence>
-        {activeProjectModal && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveProjectModal(null)}
-            className="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+            onClick={() => setActiveCapabilityModal(null)}
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="border border-red-600/60 bg-[#121212] p-6 md:p-8 rounded-2xl max-w-2xl w-full space-y-6 shadow-2xl relative my-8"
+              className="bg-[#0e0e0e] border border-red-900/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl space-y-6 relative"
             >
-              <div className="flex justify-between items-center border-b border-[#222] pb-4">
+              <div className="flex justify-between items-start border-b border-zinc-800 pb-4">
                 <div>
-                  <span className="text-xs font-mono text-red-500 font-bold uppercase">{activeProjectModal.number} // {activeProjectModal.category}</span>
-                  <h3 className="text-2xl md:text-3xl font-display font-black text-white uppercase tracking-tight">{activeProjectModal.displayTitle}</h3>
+                  <span className="text-xs font-mono text-red-500 font-bold">// SYSTEM SPECIFICATION #{activeCapabilityModal.number}</span>
+                  <h2 className="font-display text-2xl md:text-3xl font-bold text-white uppercase">{activeCapabilityModal.title}</h2>
                 </div>
                 <button 
-                  onClick={() => setActiveProjectModal(null)} 
-                  className="p-2 bg-[#1a1a1a] border border-[#333] rounded-full text-zinc-400 hover:text-white transition-colors"
-                  aria-label="Close Project Modal"
+                  onClick={() => setActiveCapabilityModal(null)} 
+                  className="p-2 text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 rounded-lg"
+                  aria-label="Close capability specification modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {activeProjectModal.image && (
-                <div className="w-full h-56 rounded-xl overflow-hidden border border-[#222] bg-black relative">
-                  <img src={activeProjectModal.image} alt={activeProjectModal.displayTitle} className="w-full h-full object-cover" />
-                </div>
-              )}
-
-              <div className="space-y-4 text-xs font-sans text-zinc-300 leading-relaxed">
-                <div>
-                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-1">// OVERVIEW</h4>
-                  <p>{activeProjectModal.longDescription}</p>
+              <div className="space-y-4 text-xs font-sans text-zinc-300">
+                <div className="bg-[#141414] p-4 border border-zinc-800 rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-red-400 uppercase font-bold">// PROBLEM IT SOLVES</span>
+                  <p>{activeCapabilityModal.problem}</p>
                 </div>
 
-                <div>
-                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-1">// PROBLEM SOLVED</h4>
-                  <p>{activeProjectModal.problem}</p>
+                <div className="bg-[#141414] p-4 border border-zinc-800 rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-red-400 uppercase font-bold">// THE SOLUTION</span>
+                  <p>{activeCapabilityModal.solution}</p>
                 </div>
 
-                <div>
-                  <h4 className="font-mono text-xs font-bold text-red-500 uppercase mb-2">// KEY ARCHITECTURE & FEATURES</h4>
-                  <ul className="space-y-1.5 list-disc list-inside text-zinc-300">
-                    {activeProjectModal.built.map((feature, idx) => (
-                      <li key={idx}>{feature}</li>
+                <div className="space-y-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">// DELIVERABLES & FEATURES</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {activeCapabilityModal.deliverables.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2 p-2 bg-[#121212] border border-[#222] rounded-lg text-zinc-200">
+                        <Check className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                        <span>{item}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-3 pt-4 border-t border-[#222]">
-                <h4 className="font-mono text-xs font-bold text-white uppercase">// TECH STACK</h4>
-                <div className="flex flex-wrap gap-2">
-                  {activeProjectModal.techStack.map((tech) => (
-                    <span key={tech} className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] text-[11px] font-mono text-zinc-300 rounded-md">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              <div className="pt-4 border-t border-zinc-800 flex justify-end">
+                <button 
+                  onClick={() => setActiveCapabilityModal(null)}
+                  className="px-6 py-2.5 bg-red-600 text-white font-mono text-xs font-bold rounded-xl uppercase tracking-widest"
+                >
+                  CLOSE SPECIFICATION
+                </button>
               </div>
-
-              {activeProjectModal.url && (
-                <div className="pt-2">
-                  <a 
-                    href={activeProjectModal.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-full h-12 bg-red-600 text-white font-bold text-xs font-mono uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 hover:bg-red-700 active:bg-red-800 transition-colors shadow-[0_0_20px_rgba(220,38,38,0.3)]"
-                  >
-                    <span>LAUNCH DEPLOYED PLATFORM</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
-              )}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* PROJECT BLUEPRINT MODAL */}
+      <AnimatePresence>
+        {activeProjectModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+            onClick={() => setActiveProjectModal(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#0e0e0e] border border-red-900/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl space-y-6 relative"
+            >
+              <div className="flex justify-between items-start border-b border-zinc-800 pb-4">
+                <div>
+                  <span className="text-xs font-mono text-red-500 font-bold">// SYSTEM ARCHITECTURE SPECIFICATION</span>
+                  <h2 className="font-display text-2xl md:text-3xl font-bold text-white uppercase">{activeProjectModal.displayTitle}</h2>
+                  <p className="text-xs font-mono text-zinc-500 mt-1">{activeProjectModal.category}</p>
+                </div>
+                <button 
+                  onClick={() => setActiveProjectModal(null)} 
+                  className="p-2 text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 rounded-lg"
+                  aria-label="Close project blueprint modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs font-sans text-zinc-300">
+                <div className="bg-[#141414] p-4 border border-zinc-800 rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-red-400 uppercase font-bold">// SYSTEM OVERVIEW</span>
+                  <p>{activeProjectModal.longDescription}</p>
+                </div>
+
+                <div className="bg-[#141414] p-4 border border-zinc-800 rounded-xl space-y-1">
+                  <span className="text-[10px] font-mono text-red-400 uppercase font-bold">// PROBLEM STATEMENT</span>
+                  <p>{activeProjectModal.problem}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">// ENGINEERED ARCHITECTURE</span>
+                  <div className="space-y-2">
+                    {activeProjectModal.built.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2 p-2.5 bg-[#121212] border border-[#222] rounded-lg text-zinc-200">
+                        <Check className="w-4 h-4 text-red-500 shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">// TECH STACK</span>
+                  <div className="flex flex-wrap gap-2">
+                    {activeProjectModal.techStack.map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-[#1a1a1a] border border-[#333] text-zinc-300 font-mono text-[11px] rounded-lg">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-zinc-800 flex justify-between items-center">
+                {activeProjectModal.url ? (
+                  <a 
+                    href={activeProjectModal.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold rounded-xl uppercase tracking-widest flex items-center gap-2"
+                  >
+                    <span>LAUNCH DEPLOYMENT</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <span className="text-xs font-mono text-zinc-500">[ DEPLOYMENT UNDER MAINTENANCE ]</span>
+                )}
+                <button 
+                  onClick={() => setActiveProjectModal(null)}
+                  className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-xs rounded-xl"
+                >
+                  CLOSE
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* TECH SPEC MODAL */}
+      <AnimatePresence>
+        {activeTechModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+            onClick={() => setActiveTechModal(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#0e0e0e] border border-red-900/40 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 relative"
+            >
+              <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <div className="flex items-center gap-3">
+                  {activeTechModal.icon}
+                  <div>
+                    <span className="text-[10px] font-mono text-red-500 uppercase">{activeTechModal.category}</span>
+                    <h3 className="font-display text-xl font-bold text-white uppercase">{activeTechModal.name}</h3>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setActiveTechModal(null)} 
+                  className="p-1.5 text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 rounded-lg"
+                  aria-label="Close tech specification modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-3 text-xs font-mono text-zinc-300">
+                <div>
+                  <span className="text-[10px] text-zinc-500 uppercase block font-bold">// DESCRIPTION</span>
+                  <p className="mt-0.5 text-zinc-200">{activeTechModal.desc}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] text-zinc-500 uppercase block font-bold">// REASON FOR SELECTION</span>
+                  <p className="mt-0.5 text-zinc-200">{activeTechModal.reason}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] text-zinc-500 uppercase block font-bold">// INTEGRATED PROJECTS</span>
+                  <p className="mt-0.5 text-red-400">{activeTechModal.projectsUsed}</p>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-zinc-800 flex justify-end">
+                <button 
+                  onClick={() => setActiveTechModal(null)}
+                  className="px-4 py-2 bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-xs rounded-lg"
+                >
+                  CLOSE SPEC
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 };
-
-export default PortfolioMaster;
